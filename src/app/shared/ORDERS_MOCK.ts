@@ -1,0 +1,52 @@
+import { Order } from './models';
+
+export const ORDERS_MOCK: Order[] = [
+  {
+    id: '12345834',
+    productType: 'sweat',
+    price: 2500,
+    status: 'new',
+    statusChangeDate: new Date(),
+    logoDescription: 'star',
+    color: 'black',
+    size: 'M',
+  },
+  {
+    id: '4563456345',
+    productType: 'tshirt',
+    price: 1500,
+    status: 'logo-ready',
+    statusChangeDate: new Date(),
+    logoDescription: 'line art',
+    color: 'black',
+    size: 'M',
+  },
+  {
+    id: '534534534',
+    productType: 'tshirt',
+    price: 2200,
+    status: 'ready',
+    statusChangeDate: new Date(),
+    logoDescription: 'no-logo',
+    color: 'black',
+    size: 'M',
+  },
+  {
+    id: '783545345',
+    productType: 'mug',
+    price: 1000,
+    status: 'delivered',
+    statusChangeDate: new Date(),
+    logoDescription: 'picture',
+    mugType: 'magic',
+  },
+  {
+    id: '783545345',
+    productType: 'mug',
+    price: 600,
+    status: 'delivered',
+    statusChangeDate: new Date(),
+    logoDescription: 'picture',
+    mugType: 'shop',
+  },
+];

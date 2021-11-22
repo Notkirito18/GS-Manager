@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row title-container">
+    <div class="col-6">
+      <h1 class="big-title">
+        <mat-icon class="title-icon">inventory_2</mat-icon>Stock
+      </h1>
+    </div>
+    <div class="btn-container col-6">
+      <button mat-button class="restock-btn">Re-stock</button>
+    </div>
+  </div>
+
+  <!-- cards -->
+  <div class="cards row">
+    <div class="col-md-4">
+      <div class="card sweat-card">
+        <div>Sweat Shirts</div>
+        <div>{{ getCount(stock, "sweat") }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card tshirt-card">
+        <div>T-shirts</div>
+        <div>{{ getCount(stock, "tshirt") }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card mugs-card">
+        <div>Mugs</div>
+        <div>{{ getCount(stock, "mug") }}</div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <h1>Stock details :</h1>
+  <!-- sweats expantion -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Sweat shirts</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="color-section" *ngFor="let color of sweatColors">
+      <span class="color-title" [ngStyle]="colorer(color)">{{
+        capitalCase(color)
+      }}</span>
+      <div class="sizes" [ngStyle]="colorer(color)">
+        <div class="row">
+          <div *ngFor="let size of sizes" class="col-md-2 col-4 data">
+            {{ size }} : {{ getCount(stock, "sweat", color, size) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <!-- tshirts expantion -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>T-shirts</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="color-section" *ngFor="let color of sweatColors">
+      <span class="color-title" [ngStyle]="colorer(color)">{{
+        capitalCase(color)
+      }}</span>
+      <div class="sizes" [ngStyle]="colorer(color)">
+        <div class="row">
+          <div *ngFor="let size of sizes" class="col-md-2 col-4 data">
+            {{ size }} : {{ getCount(stock, "tshirt", color, size) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <!-- mugs expantion -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Mugs</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="mugs-container">
+      <div class="mug-card">
+        <div>Shop</div>
+        <div>{{ getCount(stock, "mug", "", "", "shop") }}</div>
+      </div>
+      <div class="mug-card">
+        <div>Magic</div>
+        <div>{{ getCount(stock, "mug", "", "", "magic") }}</div>
+      </div>
+      <div class="mug-card">
+        <div>Thermos</div>
+        <div>{{ getCount(stock, "mug", "", "", "thermos") }}</div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>

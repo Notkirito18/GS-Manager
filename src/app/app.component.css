@@ -1,0 +1,15 @@
+mat-sidenav-container {
+  height: 100%;
+}
+mat-sidenav {
+  padding-top: 65px;
+  width: 240px;
+  background-color: rgb(31, 31, 31);
+}
+.mat-list-item {
+  color: white;
+}
+.mat-icon {
+  transform: scale(0.9);
+  margin-right: 8px;
+}
