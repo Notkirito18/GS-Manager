@@ -63,6 +63,12 @@ export function colorer(color: string) {
         color: 'white',
       };
       break;
+    case 'blue':
+      return {
+        backgroundColor: '#007bff',
+        color: 'white',
+      };
+      break;
     default:
       return {
         backgroundColor: '#212529',
@@ -70,6 +76,50 @@ export function colorer(color: string) {
       };
   }
 }
+export function chipColorer(status: string) {
+  switch (status) {
+    case 'new':
+      return {
+        backgroundColor: '#007bff',
+      };
+      break;
+    case 'logo-ready':
+      return {
+        backgroundColor: '#fd7e14',
+      };
+      break;
+    case 'ready':
+      return {
+        backgroundColor: '#dc3545',
+      };
+      break;
+    case 'delivered':
+      return {
+        backgroundColor: '#20c997',
+      };
+      break;
+    default:
+      return {};
+  }
+}
 export function capitalCase(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+export function productTypeBeautifier(productType: string) {
+  switch (productType) {
+    case 'sweat':
+      return 'Sweat shirt';
+      break;
+    case 'tshirt':
+      return 'T-shirt';
+      break;
+    case 'logo-ready':
+      return 'Logo ready';
+      break;
+    case 'mug':
+      return 'Mug';
+      break;
+    default:
+      return capitalCase(productType);
+  }
 }

@@ -34,12 +34,18 @@
   align-items: center;
   justify-content: space-evenly;
   font-size: 24px;
-  height: 120px;
+  height: 170px;
   width: 220px;
   background: #212529;
   color: white;
   margin-bottom: 20px;
   border-radius: 10px;
+}
+.card-icon-container {
+  padding: 20px;
+}
+.card-icon {
+  transform: scale(2.5);
 }
 mat-expansion-panel {
   margin-bottom: 20px;
@@ -48,6 +54,9 @@ mat-expansion-panel {
 mat-panel-title {
   font-size: 21px;
   height: 21px;
+}
+.panel-title-icon {
+  margin-right: 15px;
 }
 .color-section {
   margin: 15px 0px;
@@ -69,6 +78,9 @@ mat-panel-title {
   align-items: center;
   justify-content: center;
   height: 45px;
+}
+.mug-panel {
+  margin-bottom: 100px;
 }
 .mugs-container {
   display: flex;

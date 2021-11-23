@@ -13,20 +13,29 @@
   <!-- cards -->
   <div class="cards row">
     <div class="col-md-4">
-      <div class="card sweat-card">
+      <div class="card">
         <div>Sweat Shirts</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="hoody"></mat-icon>
+        </div>
         <div>{{ getCount(stock, "sweat") }}</div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card tshirt-card">
+      <div class="card">
         <div>T-shirts</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="shirt"></mat-icon>
+        </div>
         <div>{{ getCount(stock, "tshirt") }}</div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card mugs-card">
+      <div class="card">
         <div>Mugs</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="mug"></mat-icon>
+        </div>
         <div>{{ getCount(stock, "mug") }}</div>
       </div>
     </div>
@@ -34,9 +43,12 @@
   <hr />
   <h1>Stock details :</h1>
   <!-- sweats expantion -->
-  <mat-expansion-panel>
+  <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>Sweat shirts</mat-panel-title>
+      <mat-panel-title
+        ><mat-icon class="panel-title-icon" svgIcon="hoody"></mat-icon>Sweat
+        shirts</mat-panel-title
+      >
     </mat-expansion-panel-header>
     <div class="color-section" *ngFor="let color of sweatColors">
       <span class="color-title" [ngStyle]="colorer(color)">{{
@@ -52,11 +64,14 @@
     </div>
   </mat-expansion-panel>
   <!-- tshirts expantion -->
-  <mat-expansion-panel>
+  <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>T-shirts</mat-panel-title>
+      <mat-panel-title
+        ><mat-icon class="panel-title-icon" svgIcon="shirt"></mat-icon
+        >T-shirts</mat-panel-title
+      >
     </mat-expansion-panel-header>
-    <div class="color-section" *ngFor="let color of sweatColors">
+    <div class="color-section" *ngFor="let color of tshirtColors">
       <span class="color-title" [ngStyle]="colorer(color)">{{
         capitalCase(color)
       }}</span>
@@ -70,9 +85,12 @@
     </div>
   </mat-expansion-panel>
   <!-- mugs expantion -->
-  <mat-expansion-panel>
+  <mat-expansion-panel class="mug-panel" expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>Mugs</mat-panel-title>
+      <mat-panel-title
+        ><mat-icon class="panel-title-icon" svgIcon="mug"></mat-icon
+        >Mugs</mat-panel-title
+      >
     </mat-expansion-panel-header>
     <div class="mugs-container">
       <div class="mug-card">

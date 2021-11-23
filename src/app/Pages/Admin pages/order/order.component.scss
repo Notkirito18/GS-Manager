@@ -11,37 +11,42 @@
       margin-right: 20px;
       transform: scale(1.5);
     }
-    .btn-container {
-      display: flex;
-      justify-content: end;
-      .new-btn {
-        background-color: #20c997;
-        color: white;
-        font-size: 18px;
-        padding: 5px 30px;
-        border-radius: 10px;
-      }
+  }
+  .btn-container {
+    display: flex;
+    justify-content: end;
+    .new-btn {
+      background-color: #20c997;
+      color: white;
+      font-size: 18px;
+      padding: 5px 30px;
+      border-radius: 10px;
     }
   }
 }
 .active-orders-container {
   padding: 15px 15px 40px;
-  // border: 1px solid black;
+  min-width: 1100px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 30px;
   .table-title {
     margin-left: 15px;
   }
   table {
     width: 100%;
-    min-width: 1000px;
+    td,
+    th {
+      padding: 8px;
+      text-align: center;
+    }
     td.mat-cell:first-of-type {
-      padding-left: 8px;
+      padding-left: 24px;
     }
     .mat-column-icon {
       width: 4%;
     }
     .mat-column-product {
-      width: 18%;
+      width: 14%;
     }
     .mat-column-color {
       width: 14%;
@@ -63,6 +68,55 @@
     }
     .mat-column-actions {
       width: 8%;
+    }
+  }
+}
+.status-chip {
+  color: white;
+  padding: 3px 15px;
+  border-radius: 25px;
+}
+.orders-history-container {
+  padding: 15px 15px 40px;
+  min-width: 1100px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 30px;
+  .table-title {
+    margin-left: 15px;
+  }
+  table {
+    width: 100%;
+    td,
+    th {
+      padding: 8px;
+      text-align: center;
+    }
+    td.mat-cell:first-of-type {
+      padding-left: 24px;
+    }
+    .mat-column-icon {
+      width: 4%;
+    }
+    .mat-column-product {
+      width: 16%;
+    }
+    .mat-column-color {
+      width: 16%;
+    }
+    .mat-column-size {
+      width: 12%;
+    }
+    .mat-column-logoDes {
+      width: 14%;
+    }
+    .mat-column-price {
+      width: 10%;
+    }
+    .mat-column-date {
+      width: 14%;
+    }
+    .mat-column-status {
+      width: 14%;
     }
   }
 }

@@ -29,6 +29,7 @@ export class Order {
     public instaProfile?: string,
     public mugType?: 'shop' | 'magic' | 'thermos',
     public color?: string,
-    public size?: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
+    public size?: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL',
+    public byAdmin?: boolean
   ) {}
 }

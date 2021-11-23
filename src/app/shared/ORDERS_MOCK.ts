@@ -41,12 +41,13 @@ export const ORDERS_MOCK: Order[] = [
     mugType: 'magic',
   },
   {
-    id: '783545345',
-    productType: 'mug',
-    price: 600,
+    id: '54321654',
+    productType: 'tshirt',
+    price: 1500,
     status: 'delivered',
     statusChangeDate: new Date(),
-    logoDescription: 'picture',
-    mugType: 'shop',
+    logoDescription: 'marshmellow',
+    color: 'white',
+    size: 'S',
   },
 ];
