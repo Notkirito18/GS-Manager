@@ -41,7 +41,7 @@ export function colorer(color: string) {
   switch (color) {
     case 'yellow':
       return {
-        backgroundColor: '#ffbe0b',
+        backgroundColor: '#fff000',
         color: 'black',
       };
       break;
@@ -85,7 +85,8 @@ export function chipColorer(status: string) {
       break;
     case 'logo-ready':
       return {
-        backgroundColor: '#fd7e14',
+        backgroundColor: '#fff000',
+        color: 'black',
       };
       break;
     case 'ready':
@@ -121,5 +122,22 @@ export function productTypeBeautifier(productType: string) {
       break;
     default:
       return capitalCase(productType);
+  }
+}
+export function nextStatus(
+  status: 'new' | 'logo-ready' | 'ready' | 'delivered'
+): 'new' | 'logo-ready' | 'ready' | 'delivered' {
+  switch (status) {
+    case 'new':
+      return 'logo-ready';
+      break;
+    case 'logo-ready':
+      return 'ready';
+      break;
+    case 'ready':
+      return 'delivered';
+      break;
+    default:
+      return 'new';
   }
 }

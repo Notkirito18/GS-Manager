@@ -1,0 +1,81 @@
+<div class="container">
+  <h1 mat-dialog-title>Add New order</h1>
+  <!-- cards -->
+  <h3>Product :</h3>
+  <div class="cards row">
+    <div class="col-md-4">
+      <div class="card" (click)="chosenProduct = 'sweat'">
+        <div>Sweat Shirt</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="hoody"></mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card" (click)="chosenProduct = 'tshirt'">
+        <div>T-shirt</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="shirt"></mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card" (click)="chosenProduct = 'mug'">
+        <div>Mug</div>
+        <div class="card-icon-container">
+          <mat-icon class="card-icon" svgIcon="mug"></mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="chosenProduct && chosenProduct !== 'mug'">
+    <form [formGroup]="newOrderForm">
+      <div class="row">
+        <!-- Color input -->
+        <div class="col-sm-6 input-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Color</mat-label>
+            <mat-select>
+              <mat-option
+                class="option-container"
+                *ngFor="
+                  let color of chosenProduct === 'sweat'
+                    ? sweatColors
+                    : tshirtColors
+                "
+                [value]="color"
+              >
+                <span class="color-ball"></span>
+                {{ capitalCase(color) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-6 input-container">
+          <!-- size input -->
+          <mat-form-field appearance="outline">
+            <mat-label>Size</mat-label>
+            <mat-select>
+              <mat-option
+                class="option-container"
+                *ngFor="let size of sizes"
+                [value]="size"
+              >
+                {{ size }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <!-- action -->
+  </ng-container>
+  <div mat-dialog-actions>
+    <button mat-button type="button" (click)="this.dialogRef.close()">
+      Cancel
+    </button>
+    <button mat-button type="button" [mat-dialog-close]="newOrderForm.value">
+      Add New Order
+    </button>
+  </div>
+</div>

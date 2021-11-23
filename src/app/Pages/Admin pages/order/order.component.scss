@@ -59,6 +59,7 @@
     }
     .mat-column-price {
       width: 8%;
+      font-weight: 500;
     }
     .mat-column-date {
       width: 12%;
@@ -68,6 +69,10 @@
     }
     .mat-column-actions {
       width: 8%;
+      .update-btn {
+        background-color: #20c997;
+        color: white;
+      }
     }
   }
 }
@@ -75,6 +80,7 @@
   color: white;
   padding: 3px 15px;
   border-radius: 25px;
+  cursor: pointer;
 }
 .orders-history-container {
   padding: 15px 15px 40px;
@@ -111,6 +117,7 @@
     }
     .mat-column-price {
       width: 10%;
+      font-weight: 500;
     }
     .mat-column-date {
       width: 14%;

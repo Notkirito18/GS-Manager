@@ -9,6 +9,7 @@ import { StockComponent } from './Pages/Admin pages/stock/stock.component';
 import { OrderComponent } from './Pages/Admin pages/order/order.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -23,6 +24,12 @@ import { ProductsPageComponent } from './Pages/products-page/products-page.compo
 import { CustomPageComponent } from './Pages/custom-page/custom-page.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,6 +38,9 @@ import { reducer as productsReducer } from './store/stock/stock.reducer';
 import { reducer as ordersReducer } from './store/orders/order.reducer';
 import { StockEffects } from './store/stock/stock.effects';
 import { OrderEffects } from './store/orders/order.effects';
+import { DeleteConfirmComponent } from './components/dialogs/delete-confirm/delete-confirm.component';
+import { ChangeStatusComponent } from './components/dialogs/change-status/change-status.component';
+import { NewOrderComponent } from './components/dialogs/new-order/new-order.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +53,16 @@ import { OrderEffects } from './store/orders/order.effects';
     LandingPageComponent,
     ProductsPageComponent,
     CustomPageComponent,
+    DeleteConfirmComponent,
+    ChangeStatusComponent,
+    NewOrderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
@@ -64,6 +79,12 @@ import { OrderEffects } from './store/orders/order.effects';
     MatButtonModule,
     MatTableModule,
     MatExpansionModule,
+    MatMenuModule,
+    MatRippleModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
