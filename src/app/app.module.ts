@@ -30,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -85,6 +86,7 @@ import { NewOrderComponent } from './components/dialogs/new-order/new-order.comp
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

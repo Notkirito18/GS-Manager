@@ -1,9 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { sizes, sweatColors, tshirtColors } from 'src/app/shared/constants';
+import {
+  mugTypes,
+  sizes,
+  sweatColors,
+  tshirtColors,
+} from 'src/app/shared/constants';
 import { Order } from 'src/app/shared/models';
-import { capitalCase } from 'src/app/shared/helper';
+import { capitalCase, colorer } from 'src/app/shared/helper';
 
 @Component({
   selector: 'app-new-order',
@@ -20,15 +25,34 @@ export class NewOrderComponent implements OnInit {
   chosenProduct!: 'sweat' | 'tshirt' | 'mug';
 
   newOrderForm!: FormGroup;
+  mugOrderForm!: FormGroup;
+  withLogo = false;
 
   ngOnInit(): void {
     this.newOrderForm = this.fb.group({
-      color: '',
+      color: ['', Validators.required],
+      size: ['', Validators.required],
+      price: ['', Validators.required],
+      withLogo: false,
+      logoDes: '',
+      logoImage: '',
     });
+    this.mugOrderForm = this.fb.group({
+      mugType: ['', Validators.required],
+      price: ['', Validators.required],
+      image: ['', Validators.required],
+      description: '',
+    });
+  }
+  chooseProduct(product: 'sweat' | 'tshirt' | 'mug') {
+    this.chosenProduct = product;
+    this.newOrderForm.reset();
   }
 
   sweatColors = sweatColors;
   tshirtColors = tshirtColors;
   sizes = sizes;
+  mugTypes = mugTypes;
   capitalCase = capitalCase;
+  colorer = colorer;
 }

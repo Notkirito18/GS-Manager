@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Order, Product } from 'src/app/shared/models';
 import {
+  addOrder,
   deleteOrder,
   loadOrders,
   updateOrder,
@@ -10,6 +11,8 @@ import { selectAllOrders } from 'src/app/store/orders/order.selectors';
 import {
   capitalCase,
   chipColorer,
+  colorer,
+  IdGenerator,
   nextStatus,
   productTypeBeautifier,
 } from 'src/app/shared/helper';
@@ -78,10 +81,43 @@ export class OrderComponent implements OnInit {
       maxHeight: '600px',
       data: new Order('', '', 0, 'new', new Date(), ''),
     });
-    dialogRef.afterClosed().subscribe((newOrder) => {
-      if (newOrder) {
-        console.log(newOrder);
-        //TODO DISPATCH NEW ORDER
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        // adding mug order
+        if (data.productType === 'mug') {
+          const newOrder = new Order(
+            this.IdGenerator(),
+            data.productType,
+            data.newOrder.price,
+            'new',
+            new Date(),
+            data.newOrder.description,
+            [data.newOrder.image],
+            undefined,
+            data.newOrder.mugType,
+            undefined,
+            undefined,
+            true
+          );
+          this.ordersStore.dispatch(addOrder({ order: newOrder }));
+        } else {
+          // adding sweat/shirt order
+          const newOrder = new Order(
+            this.IdGenerator(),
+            data.productType,
+            data.newOrder.price,
+            'new',
+            new Date(),
+            data.newOrder.withLogo ? data.newOrder.logoDes : 'no-logo',
+            [data.newOrder.logoImage],
+            '',
+            undefined,
+            data.newOrder.color,
+            data.newOrder.size,
+            true
+          );
+          this.ordersStore.dispatch(addOrder({ order: newOrder }));
+        }
       }
     });
   }
@@ -107,4 +143,6 @@ export class OrderComponent implements OnInit {
   productTypeBeautifier = productTypeBeautifier;
   chipColorer = chipColorer;
   nextStatus = nextStatus;
+  IdGenerator = IdGenerator;
+  colorer = colorer;
 }

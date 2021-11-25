@@ -1,10 +1,13 @@
 <div class="container">
   <h1 mat-dialog-title>Add New order</h1>
   <!-- cards -->
-  <h3>Product :</h3>
+  <h3 class="hh">Product :</h3>
   <div class="cards row">
     <div class="col-md-4">
-      <div class="card" (click)="chosenProduct = 'sweat'">
+      <div
+        (click)="chooseProduct('sweat')"
+        [ngClass]="chosenProduct === 'sweat' ? 'selected-card' : 'card'"
+      >
         <div>Sweat Shirt</div>
         <div class="card-icon-container">
           <mat-icon class="card-icon" svgIcon="hoody"></mat-icon>
@@ -12,7 +15,10 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card" (click)="chosenProduct = 'tshirt'">
+      <div
+        (click)="chooseProduct('tshirt')"
+        [ngClass]="chosenProduct === 'tshirt' ? 'selected-card' : 'card'"
+      >
         <div>T-shirt</div>
         <div class="card-icon-container">
           <mat-icon class="card-icon" svgIcon="shirt"></mat-icon>
@@ -20,7 +26,10 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card" (click)="chosenProduct = 'mug'">
+      <div
+        (click)="chooseProduct('mug')"
+        [ngClass]="chosenProduct === 'mug' ? 'selected-card ' : 'card'"
+      >
         <div>Mug</div>
         <div class="card-icon-container">
           <mat-icon class="card-icon" svgIcon="mug"></mat-icon>
@@ -32,10 +41,10 @@
     <form [formGroup]="newOrderForm">
       <div class="row">
         <!-- Color input -->
-        <div class="col-sm-6 input-container">
+        <div class="col-sm-4 input-container">
           <mat-form-field appearance="outline">
             <mat-label>Color</mat-label>
-            <mat-select>
+            <mat-select formControlName="color">
               <mat-option
                 class="option-container"
                 *ngFor="
@@ -45,17 +54,17 @@
                 "
                 [value]="color"
               >
-                <span class="color-ball"></span>
+                <span class="color-ball" [ngStyle]="colorer(color)"></span>
                 {{ capitalCase(color) }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-sm-6 input-container">
+        <div class="col-sm-4 input-container">
           <!-- size input -->
           <mat-form-field appearance="outline">
             <mat-label>Size</mat-label>
-            <mat-select>
+            <mat-select formControlName="size">
               <mat-option
                 class="option-container"
                 *ngFor="let size of sizes"
@@ -66,15 +75,117 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div class="col-sm-4 input-container">
+          <!-- price input -->
+          <mat-form-field appearance="outline">
+            <mat-label>price</mat-label>
+            <input formControlName="price" matInput type="number" />
+          </mat-form-field>
+        </div>
       </div>
+      <!-- logo sec -->
+      <mat-slide-toggle
+        [checked]="withLogo"
+        formControlName="withLogo"
+        (toggleChange)="withLogo = !withLogo"
+        >With Logo</mat-slide-toggle
+      >
+      <ng-container *ngIf="withLogo">
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Describe your logo </mat-label>
+              <textarea formControlName="logoDes" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Image path</mat-label>
+              <input formControlName="logoImage" matInput type="text" />
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
     </form>
     <!-- action -->
   </ng-container>
+  <ng-container *ngIf="chosenProduct && chosenProduct === 'mug'">
+    <form [formGroup]="mugOrderForm">
+      <div class="row">
+        <!-- mug type -->
+        <div class="col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Mug type</mat-label>
+            <mat-select formControlName="mugType">
+              <mat-option
+                class="option-container"
+                *ngFor="let mugType of mugTypes"
+                [value]="mugType"
+              >
+                {{ capitalCase(mugType) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- price -->
+        <div class="col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label>price</mat-label>
+            <input formControlName="price" matInput type="number" />
+          </mat-form-field>
+        </div>
+        <!-- Describe -->
+        <div class="col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label
+              >Describe how you want your picture on the mug
+            </mat-label>
+            <textarea formControlName="description" matInput></textarea>
+          </mat-form-field>
+        </div>
+        <!-- Image path -->
+        <div class="col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Image path</mat-label>
+            <input formControlName="image" matInput type="text" />
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </ng-container>
   <div mat-dialog-actions>
-    <button mat-button type="button" (click)="this.dialogRef.close()">
+    <button
+      class="cancel-btn"
+      mat-button
+      type="button"
+      (click)="this.dialogRef.close()"
+    >
       Cancel
     </button>
-    <button mat-button type="button" [mat-dialog-close]="newOrderForm.value">
+    <button
+      [ngClass]="
+        newOrderForm.valid || mugOrderForm.valid
+          ? 'add-btn'
+          : 'add-btn-disabeled'
+      "
+      mat-button
+      type="button"
+      [mat-dialog-close]="
+        chosenProduct === 'mug'
+          ? { productType: chosenProduct, newOrder: mugOrderForm.value }
+          : {
+              productType: chosenProduct,
+              newOrder: newOrderForm.value
+            }
+      "
+      [disabled]="
+        chosenProduct
+          ? chosenProduct === 'mug'
+            ? !mugOrderForm.valid
+            : !newOrderForm.valid
+          : true
+      "
+    >
       Add New Order
     </button>
   </div>

@@ -141,3 +141,6 @@ export function nextStatus(
       return 'new';
   }
 }
+export function IdGenerator() {
+  return '_' + Math.random().toString(36).substr(2, 9);
+}

@@ -22,3 +22,4 @@ export const ordersHistoryDisplayedColumns: string[] = [
   'date',
   'status',
 ];
+export const mugTypes = ['shop', 'magic', 'thermos'];

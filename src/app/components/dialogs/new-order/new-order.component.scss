@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .card {
     display: flex;
     align-items: center;
@@ -16,6 +17,9 @@
     color: white;
     margin-bottom: 20px;
     border-radius: 10px;
+    cursor: pointer;
+    outline: 3px solid white;
+    outline-offset: 2px;
     .card-icon-container {
       padding: 20px;
       .card-icon {
@@ -23,6 +27,16 @@
       }
     }
   }
+  .card:hover {
+    outline: 3px solid rgb(0, 0, 0);
+  }
+}
+.card:hover {
+  color: red;
+}
+
+.mat-form-field {
+  width: 100%;
 }
 .input-container {
   text-align: center;
@@ -33,6 +47,43 @@
   width: 20px;
   border-radius: 50%;
   margin-right: 8px;
-  background-color: black;
   transform: translateY(5px);
+}
+.mat-slide-toggle {
+  margin-bottom: 10px;
+}
+.selected-card {
+  outline-offset: 2px;
+  outline: 3px solid black;
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 24px;
+  height: 170px;
+  width: 220px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  flex-direction: column;
+  .card-icon-container {
+    padding: 20px;
+    .card-icon {
+      transform: scale(2.5);
+    }
+  }
+}
+.cancel-btn {
+  background-color: #737373;
+  color: white;
+}
+.add-btn {
+  background-color: #20c997;
+  color: white;
+}
+.add-btn-disabeled {
+  background-color: #b8ffeb;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
 }
