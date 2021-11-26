@@ -10,6 +10,8 @@ import {
 import { selectAllOrders } from 'src/app/store/orders/order.selectors';
 import {
   capitalCase,
+  checkAvailability,
+  checkAvailabilityMug,
   chipColorer,
   colorer,
   IdGenerator,
@@ -85,39 +87,80 @@ export class OrderComponent implements OnInit {
       if (data) {
         // adding mug order
         if (data.productType === 'mug') {
-          const newOrder = new Order(
-            this.IdGenerator(),
-            data.productType,
-            data.newOrder.price,
-            'new',
-            new Date(),
-            data.newOrder.description,
-            [data.newOrder.image],
-            undefined,
-            data.newOrder.mugType,
-            undefined,
-            undefined,
-            true
-          );
-          this.ordersStore.dispatch(addOrder({ order: newOrder }));
+          if (checkAvailabilityMug(data.newOrder.mugType)) {
+            const newOrder = new Order(
+              this.IdGenerator(),
+              data.productType,
+              data.newOrder.price,
+              'new',
+              new Date(),
+              data.newOrder.description,
+              [data.newOrder.image],
+              undefined,
+              data.newOrder.mugType,
+              undefined,
+              undefined,
+              true
+            );
+            this.ordersStore.dispatch(addOrder({ order: newOrder }));
+          } else {
+            alert("We don't have this product in stock.");
+          }
         } else {
           // adding sweat/shirt order
-          const newOrder = new Order(
-            this.IdGenerator(),
-            data.productType,
-            data.newOrder.price,
-            'new',
-            new Date(),
-            data.newOrder.withLogo ? data.newOrder.logoDes : 'no-logo',
-            [data.newOrder.logoImage],
-            '',
-            undefined,
-            data.newOrder.color,
-            data.newOrder.size,
-            true
-          );
-          this.ordersStore.dispatch(addOrder({ order: newOrder }));
+          if (
+            checkAvailability(
+              data.productType,
+              data.newOrder.color,
+              data.newOrder.size
+            )
+          ) {
+            const newOrder = new Order(
+              this.IdGenerator(),
+              data.productType,
+              data.newOrder.price,
+              'new',
+              new Date(),
+              data.newOrder.withLogo ? data.newOrder.logoDes : 'no-logo',
+              [data.newOrder.logoImage],
+              '',
+              undefined,
+              data.newOrder.color,
+              data.newOrder.size,
+              true
+            );
+            this.ordersStore.dispatch(addOrder({ order: newOrder }));
+          } else {
+            alert("We don't have this product in stock.");
+          }
         }
+      }
+    });
+  }
+  openEditOrderDialog(orderToEdit: Order): void {
+    const dialogRef = this.dialog.open(NewOrderComponent, {
+      width: '600px',
+      maxHeight: '600px',
+      data: orderToEdit,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data);
+        this.ordersStore.dispatch(
+          updateOrder({
+            update: {
+              id: orderToEdit.id,
+              changes: {
+                ...orderToEdit,
+                color: data.newOrder.color,
+                logoDescription: data.newOrder.logoDes,
+                logoImages: [data.newOrder.logoImage],
+                price: data.newOrder.price,
+                size: data.newOrder.size,
+              },
+            },
+          })
+        );
       }
     });
   }
@@ -131,6 +174,7 @@ export class OrderComponent implements OnInit {
           changes: {
             ...order,
             status: changedStatus,
+            statusChangeDate: new Date(),
           },
         },
       })
@@ -145,4 +189,6 @@ export class OrderComponent implements OnInit {
   nextStatus = nextStatus;
   IdGenerator = IdGenerator;
   colorer = colorer;
+  checkAvailability = checkAvailability;
+  checkAvailabilityMug = checkAvailabilityMug;
 }

@@ -1,3 +1,5 @@
+import { PRODUCTS_MOCK } from './PRODUCTS_MOCK';
+
 export function getCount(
   stock: any[],
   type?: string,
@@ -69,10 +71,16 @@ export function colorer(color: string) {
         color: 'white',
       };
       break;
-    default:
+    case 'black':
       return {
         backgroundColor: '#212529',
         color: 'white',
+      };
+      break;
+    default:
+      return {
+        border: '2px solid #212529',
+        color: '#212529',
       };
   }
 }
@@ -143,4 +151,30 @@ export function nextStatus(
 }
 export function IdGenerator() {
   return '_' + Math.random().toString(36).substr(2, 9);
+}
+export function checkAvailability(
+  productType: 'sweat' | 'tshirt',
+  productColor: string,
+  productSize: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
+) {
+  let available = false;
+  for (let i = 0; i < PRODUCTS_MOCK.length; i++) {
+    if (PRODUCTS_MOCK[i].type === productType) {
+      if (PRODUCTS_MOCK[i].color === productColor) {
+        if (PRODUCTS_MOCK[i].size === productSize) {
+          available = true;
+        }
+      }
+    }
+  }
+  return available;
+}
+export function checkAvailabilityMug(mugType: 'shop' | 'magic' | 'thermos') {
+  let available = false;
+  for (let i = 0; i < PRODUCTS_MOCK.length; i++) {
+    if (PRODUCTS_MOCK[i].mugType === mugType) {
+      available = true;
+    }
+  }
+  return available;
 }

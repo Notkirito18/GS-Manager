@@ -87,7 +87,7 @@
       <mat-slide-toggle
         [checked]="withLogo"
         formControlName="withLogo"
-        (toggleChange)="withLogo = !withLogo"
+        (toggleChange)="logoToggle()"
         >With Logo</mat-slide-toggle
       >
       <ng-container *ngIf="withLogo">
@@ -186,7 +186,7 @@
           : true
       "
     >
-      Add New Order
+      {{ editingMode ? "Edit" : "Add New Order" }}
     </button>
   </div>
 </div>
