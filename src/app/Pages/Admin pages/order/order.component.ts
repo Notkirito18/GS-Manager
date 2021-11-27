@@ -16,6 +16,7 @@ import {
   colorer,
   IdGenerator,
   nextStatus,
+  productOrderedId,
   productTypeBeautifier,
 } from 'src/app/shared/helper';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,6 +27,12 @@ import {
   activeOrdersDisplayedColumns,
   ordersHistoryDisplayedColumns,
 } from 'src/app/shared/constants';
+import {
+  addProduct,
+  deleteProduct,
+  loadProducts,
+} from 'src/app/store/stock/stock.actions';
+import { selectAllProducts } from 'src/app/store/stock/stock.selectors';
 
 @Component({
   selector: 'app-order',
@@ -35,12 +42,14 @@ import {
 export class OrderComponent implements OnInit {
   constructor(
     private ordersStore: Store<{ orders: Order[] }>,
+    private productsStore: Store<{ products: Product[] }>,
     private dialog: MatDialog
   ) {}
 
   activeOrdersData: Order[] = [];
   ordersHistoryData: Order[] = [];
   ngOnInit(): void {
+    this.productsStore.dispatch(loadProducts());
     this.ordersStore.dispatch(loadOrders());
     this.ordersStore.select(selectAllOrders).subscribe((orders) => {
       this.activeOrdersData = orders.filter((item) => {
@@ -60,6 +69,17 @@ export class OrderComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((id) => {
       if (id) {
+        this.productsStore.dispatch(
+          addProduct({
+            product: new Product(
+              IdGenerator(),
+              order.productType,
+              order.color,
+              order.size,
+              order.mugType
+            ),
+          })
+        );
         this.ordersStore.dispatch(deleteOrder({ _id: id }));
       }
     });
@@ -84,10 +104,15 @@ export class OrderComponent implements OnInit {
       data: new Order('', '', 0, 'new', new Date(), ''),
     });
     dialogRef.afterClosed().subscribe((data) => {
+      let stock: Product[] = [];
+
       if (data) {
         // adding mug order
+        this.productsStore.select(selectAllProducts).subscribe((products) => {
+          stock = products;
+        });
         if (data.productType === 'mug') {
-          if (checkAvailabilityMug(data.newOrder.mugType)) {
+          if (checkAvailabilityMug(stock, data.newOrder.mugType)) {
             const newOrder = new Order(
               this.IdGenerator(),
               data.productType,
@@ -110,6 +135,7 @@ export class OrderComponent implements OnInit {
           // adding sweat/shirt order
           if (
             checkAvailability(
+              stock,
               data.productType,
               data.newOrder.color,
               data.newOrder.size
@@ -130,6 +156,16 @@ export class OrderComponent implements OnInit {
               true
             );
             this.ordersStore.dispatch(addOrder({ order: newOrder }));
+            this.productsStore.dispatch(
+              deleteProduct({
+                _id: productOrderedId(
+                  stock,
+                  data.productType,
+                  data.newOrder.color,
+                  data.newOrder.size
+                ),
+              })
+            );
           } else {
             alert("We don't have this product in stock.");
           }
@@ -145,7 +181,6 @@ export class OrderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        console.log(data);
         this.ordersStore.dispatch(
           updateOrder({
             update: {
@@ -191,4 +226,5 @@ export class OrderComponent implements OnInit {
   colorer = colorer;
   checkAvailability = checkAvailability;
   checkAvailabilityMug = checkAvailabilityMug;
+  productOrderedId = productOrderedId;
 }

@@ -1,3 +1,4 @@
+import { Product } from './models';
 import { PRODUCTS_MOCK } from './PRODUCTS_MOCK';
 
 export function getCount(
@@ -153,15 +154,16 @@ export function IdGenerator() {
   return '_' + Math.random().toString(36).substr(2, 9);
 }
 export function checkAvailability(
+  stock: Product[],
   productType: 'sweat' | 'tshirt',
   productColor: string,
   productSize: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
 ) {
   let available = false;
-  for (let i = 0; i < PRODUCTS_MOCK.length; i++) {
-    if (PRODUCTS_MOCK[i].type === productType) {
-      if (PRODUCTS_MOCK[i].color === productColor) {
-        if (PRODUCTS_MOCK[i].size === productSize) {
+  for (let i = 0; i < stock.length; i++) {
+    if (stock[i].type === productType) {
+      if (stock[i].color === productColor) {
+        if (stock[i].size === productSize) {
           available = true;
         }
       }
@@ -169,12 +171,33 @@ export function checkAvailability(
   }
   return available;
 }
-export function checkAvailabilityMug(mugType: 'shop' | 'magic' | 'thermos') {
+export function checkAvailabilityMug(
+  stock: Product[],
+  mugType: 'shop' | 'magic' | 'thermos'
+) {
   let available = false;
-  for (let i = 0; i < PRODUCTS_MOCK.length; i++) {
-    if (PRODUCTS_MOCK[i].mugType === mugType) {
+  for (let i = 0; i < stock.length; i++) {
+    if (stock[i].mugType === mugType) {
       available = true;
     }
   }
   return available;
+}
+export function productOrderedId(
+  stock: Product[],
+  productType: 'sweat' | 'tshirt',
+  productColor: string,
+  productSize: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL'
+) {
+  let id = '';
+  for (let i = 0; i < stock.length; i++) {
+    if (stock[i].type === productType) {
+      if (stock[i].color === productColor) {
+        if (stock[i].size === productSize) {
+          id = stock[i].id;
+        }
+      }
+    }
+  }
+  return id;
 }
