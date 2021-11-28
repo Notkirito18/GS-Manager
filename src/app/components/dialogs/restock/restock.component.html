@@ -1,7 +1,7 @@
 <div class="container">
-  <h1 mat-dialog-title>Add New order</h1>
+  <h1 mat-dialog-title>Restock</h1>
   <!-- cards -->
-  <h3>Product :</h3>
+  <h3>What products do you want to add to stock :</h3>
   <div class="cards row">
     <div class="col-md-4">
       <div
@@ -37,8 +37,20 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="chosenProduct">
+    <div class="row" style="margin-bottom: 15px">
+      <div class="col-sm-6">
+        <h3 class="options">Select the restock options :</h3>
+      </div>
+      <div class="col-sm-6 end">
+        <button mat-button (click)="addAnotherProduct()" class="add-btn">
+          Add Product
+        </button>
+      </div>
+    </div>
+  </ng-container>
   <ng-container *ngIf="chosenProduct && chosenProduct !== 'mug'">
-    <form [formGroup]="newOrderForm">
+    <form [formGroup]="restockForm">
       <div class="row">
         <!-- Color input -->
         <div class="col-sm-4 input-container">
@@ -76,82 +88,65 @@
           </mat-form-field>
         </div>
         <div class="col-sm-4 input-container">
-          <!-- price input -->
+          <!-- amount input -->
           <mat-form-field appearance="outline">
-            <mat-label>price</mat-label>
-            <input formControlName="price" matInput type="number" />
+            <mat-label>Amount</mat-label>
+            <input formControlName="amount" matInput type="number" />
           </mat-form-field>
         </div>
       </div>
-      <!-- logo sec -->
-      <mat-slide-toggle
-        [checked]="withLogo"
-        formControlName="withLogo"
-        (toggleChange)="logoToggle()"
-        >With Logo</mat-slide-toggle
+      <div
+        formArrayName="additionalProducts"
+        *ngFor="let product of formArrayCtrl.controls; let i = index"
       >
-      <ng-container *ngIf="withLogo">
-        <div class="row">
-          <div class="col-sm-6">
+        <div class="row" [formGroupName]="i">
+          <!-- Color input -->
+          <div class="col-sm-4 input-container">
             <mat-form-field appearance="outline">
-              <mat-label>Describe your logo </mat-label>
-              <textarea formControlName="logoDes" matInput></textarea>
+              <mat-label>Color</mat-label>
+              <mat-select formControlName="color">
+                <mat-option
+                  class="option-container"
+                  *ngFor="
+                    let color of chosenProduct === 'sweat'
+                      ? sweatColors
+                      : tshirtColors
+                  "
+                  [value]="color"
+                >
+                  <span class="color-ball" [ngStyle]="colorer(color)"></span>
+                  {{ capitalCase(color) }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4 input-container">
+            <!-- size input -->
             <mat-form-field appearance="outline">
-              <mat-label>Image path</mat-label>
-              <input formControlName="logoImage" matInput type="text" />
+              <mat-label>Size</mat-label>
+              <mat-select formControlName="size">
+                <mat-option
+                  class="option-container"
+                  *ngFor="let size of sizes"
+                  [value]="size"
+                >
+                  {{ size }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4 input-container">
+            <!-- amount input -->
+            <mat-form-field appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input formControlName="amount" matInput type="number" />
             </mat-form-field>
           </div>
         </div>
-      </ng-container>
+      </div>
     </form>
-    <!-- action -->
   </ng-container>
   <ng-container *ngIf="chosenProduct && chosenProduct === 'mug'">
-    <form [formGroup]="mugOrderForm">
-      <div class="row">
-        <!-- mug type -->
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline">
-            <mat-label>Mug type</mat-label>
-            <mat-select formControlName="mugType">
-              <mat-option
-                class="option-container"
-                *ngFor="let mugType of mugTypes"
-                [value]="mugType"
-              >
-                {{ capitalCase(mugType) }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <!-- price -->
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline">
-            <mat-label>price</mat-label>
-            <input formControlName="price" matInput type="number" />
-          </mat-form-field>
-        </div>
-        <!-- Describe -->
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline">
-            <mat-label
-              >Describe how you want your picture on the mug
-            </mat-label>
-            <textarea formControlName="description" matInput></textarea>
-          </mat-form-field>
-        </div>
-        <!-- Image path -->
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline">
-            <mat-label>Image path</mat-label>
-            <input formControlName="image" matInput type="text" />
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
   </ng-container>
   <div mat-dialog-actions>
     <button
@@ -163,30 +158,20 @@
       Cancel
     </button>
     <button
-      [ngClass]="
-        newOrderForm.valid || mugOrderForm.valid
-          ? 'add-btn'
-          : 'add-btn-disabeled'
-      "
+      class="add-btn"
       mat-button
       type="button"
       [mat-dialog-close]="
         chosenProduct === 'mug'
-          ? { productType: chosenProduct, newOrder: mugOrderForm.value }
+          ? { productType: chosenProduct, products: restockForm.value }
           : {
               productType: chosenProduct,
-              newOrder: newOrderForm.value
+              products: restockForm.value
             }
       "
-      [disabled]="
-        chosenProduct
-          ? chosenProduct === 'mug'
-            ? !mugOrderForm.valid
-            : !newOrderForm.valid
-          : true
-      "
+      [disabled]="false"
     >
-      {{ editingMode ? "Edit" : "Add New Order" }}
+      Restock
     </button>
   </div>
 </div>

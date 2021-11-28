@@ -33,6 +33,7 @@ import {
   loadProducts,
 } from 'src/app/store/stock/stock.actions';
 import { selectAllProducts } from 'src/app/store/stock/stock.selectors';
+import { NotInStockComponent } from 'src/app/components/dialogs/not-in-stock/not-in-stock.component';
 
 @Component({
   selector: 'app-order',
@@ -129,7 +130,9 @@ export class OrderComponent implements OnInit {
             );
             this.ordersStore.dispatch(addOrder({ order: newOrder }));
           } else {
-            alert("We don't have this product in stock.");
+            this.dialog.open(NotInStockComponent, {
+              width: '250px',
+            });
           }
         } else {
           // adding sweat/shirt order
@@ -167,7 +170,9 @@ export class OrderComponent implements OnInit {
               })
             );
           } else {
-            alert("We don't have this product in stock.");
+            this.dialog.open(NotInStockComponent, {
+              width: '250px',
+            });
           }
         }
       }

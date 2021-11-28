@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>
+  <mat-icon class="title-icon">warning</mat-icon>
+  <div>Can't make order !</div>
+</h1>
+<div mat-dialog-content>
+  <p>The product you want to order is not available in stock.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+  <button
+    mat-button
+    class="yes-btn"
+    routerLink="admin/stock"
+    (click)="this.dialogRef.close()"
+    cdkFocusInitial
+  >
+    Go to stock
+  </button>
+</div>

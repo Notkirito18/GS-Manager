@@ -42,6 +42,8 @@ import { OrderEffects } from './store/orders/order.effects';
 import { DeleteConfirmComponent } from './components/dialogs/delete-confirm/delete-confirm.component';
 import { ChangeStatusComponent } from './components/dialogs/change-status/change-status.component';
 import { NewOrderComponent } from './components/dialogs/new-order/new-order.component';
+import { NotInStockComponent } from './components/dialogs/not-in-stock/not-in-stock.component';
+import { RestockComponent } from './components/dialogs/restock/restock.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { NewOrderComponent } from './components/dialogs/new-order/new-order.comp
     DeleteConfirmComponent,
     ChangeStatusComponent,
     NewOrderComponent,
+    NotInStockComponent,
+    RestockComponent,
   ],
   imports: [
     BrowserModule,
