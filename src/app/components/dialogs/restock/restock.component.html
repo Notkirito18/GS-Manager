@@ -43,7 +43,11 @@
         <h3 class="options">Select the restock options :</h3>
       </div>
       <div class="col-sm-6 end">
-        <button mat-button (click)="addAnotherProduct()" class="add-btn">
+        <button
+          mat-button
+          (click)="addAnotherProduct(chosenProduct)"
+          class="add-btn"
+        >
           Add Product
         </button>
       </div>
@@ -147,6 +151,61 @@
     </form>
   </ng-container>
   <ng-container *ngIf="chosenProduct && chosenProduct === 'mug'">
+    <form [formGroup]="restockMugsForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- Mug Type input -->
+          <mat-form-field appearance="outline">
+            <mat-label>Mug Type</mat-label>
+            <mat-select formControlName="mugType">
+              <mat-option
+                class="option-container"
+                *ngFor="let mugType of mugTypes"
+                [value]="mugType"
+              >
+                {{ mugType }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+          <!-- Amount input -->
+          <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input type="number" matInput formControlName="amount" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        formArrayName="additionalProducts"
+        *ngFor="let product of mugFormArrayCtrl.controls; let i = index"
+      >
+        <div class="row" [formGroupName]="i">
+          <div class="col-sm-6">
+            <!-- Mug Type input -->
+            <mat-form-field appearance="outline">
+              <mat-label>Mug Type</mat-label>
+              <mat-select formControlName="mugType">
+                <mat-option
+                  class="option-container"
+                  *ngFor="let mugType of mugTypes"
+                  [value]="mugType"
+                >
+                  {{ mugType }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <!-- Amount input -->
+            <mat-form-field appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input type="number" matInput formControlName="amount" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
   </ng-container>
   <div mat-dialog-actions>
     <button
@@ -163,7 +222,7 @@
       type="button"
       [mat-dialog-close]="
         chosenProduct === 'mug'
-          ? { productType: chosenProduct, products: restockForm.value }
+          ? { productType: chosenProduct, products: restockMugsForm.value }
           : {
               productType: chosenProduct,
               products: restockForm.value

@@ -48,36 +48,72 @@ export class StockComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         let productsToAdd: Product[] = [];
+        if (data.productType === 'mug') {
+          console.log('mug data', data);
+          for (let i = 0; i < data.products.amount; i++) {
+            productsToAdd.push(
+              new Product(
+                this.IdGeneratorIdGenerator(),
+                data.productType,
+                undefined,
+                undefined,
+                data.products.mugType
+              )
+            );
+          }
 
-        for (let i = 0; i < data.products.amount; i++) {
-          productsToAdd.push(
-            new Product(
-              this.IdGeneratorIdGenerator(),
-              data.productType,
-              data.products.color,
-              data.products.size
-            )
-          );
-        }
+          if (data.products.additionalProducts.length > 0) {
+            for (let i = 0; i < data.products.additionalProducts.length; i++) {
+              for (
+                let j = 0;
+                j < data.products.additionalProducts[i].amount;
+                j++
+              ) {
+                productsToAdd.push(
+                  new Product(
+                    this.IdGeneratorIdGenerator(),
+                    data.productType,
+                    undefined,
+                    undefined,
+                    data.products.additionalProducts[i].mugType
+                  )
+                );
+              }
+            }
+          }
+        } else {
+          for (let i = 0; i < data.products.amount; i++) {
+            productsToAdd.push(
+              new Product(
+                this.IdGeneratorIdGenerator(),
+                data.productType,
+                data.products.color,
+                data.products.size
+              )
+            );
+          }
 
-        if (data.products.additionalProducts.length > 0) {
-          for (let i = 0; i < data.products.additionalProducts.length; i++) {
-            for (
-              let j = 0;
-              j < data.products.additionalProducts[i].amount;
-              j++
-            ) {
-              productsToAdd.push(
-                new Product(
-                  this.IdGeneratorIdGenerator(),
-                  data.productType,
-                  data.products.additionalProducts[i].color,
-                  data.products.additionalProducts[i].size
-                )
-              );
+          if (data.products.additionalProducts.length > 0) {
+            for (let i = 0; i < data.products.additionalProducts.length; i++) {
+              for (
+                let j = 0;
+                j < data.products.additionalProducts[i].amount;
+                j++
+              ) {
+                productsToAdd.push(
+                  new Product(
+                    this.IdGeneratorIdGenerator(),
+                    data.productType,
+                    data.products.additionalProducts[i].color,
+                    data.products.additionalProducts[i].size
+                  )
+                );
+              }
             }
           }
         }
+
+        // dispatching products
         this.productsStore.dispatch(addProducts({ products: productsToAdd }));
         console.log(productsToAdd);
       }
