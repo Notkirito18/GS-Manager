@@ -31,6 +31,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -48,6 +51,7 @@ import { RestockComponent } from './components/dialogs/restock/restock.component
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { RecordEffects } from './store/records/record.effects';
 import { BalanceEditComponent } from './components/dialogs/balance-edit/balance-edit.component';
+import { EditRecordComponent } from './components/dialogs/edit-record/edit-record.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +70,7 @@ import { BalanceEditComponent } from './components/dialogs/balance-edit/balance-
     NotInStockComponent,
     RestockComponent,
     BalanceEditComponent,
+    EditRecordComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +102,9 @@ import { BalanceEditComponent } from './components/dialogs/balance-edit/balance-
     MatInputModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
     NgApexchartsModule,
   ],
