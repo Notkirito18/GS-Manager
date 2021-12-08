@@ -25,7 +25,7 @@
             ><mat-icon svgIcon="shirt"></mat-icon
           ></ng-container>
           <ng-container *ngIf="element.productType === 'sweat'"
-            ><mat-icon svgIcon="hoody"></mat-icon
+            ><mat-icon svgIcon="sweat"></mat-icon
           ></ng-container>
           <ng-container *ngIf="element.productType === 'mug'"
             ><mat-icon svgIcon="mug"></mat-icon
@@ -79,7 +79,7 @@
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Last Modified</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.statusChangeDate.getTime() }}
+          {{ dateBeautifier(element.statusChangeDate) }}
         </td>
       </ng-container>
 
@@ -135,7 +135,7 @@
   <!-- second table -->
 
   <div class="orders-history-container">
-    <h2 class="table-title">Orders History</h2>
+    <h2 class="table-title">Sales History</h2>
     <table mat-table [dataSource]="ordersHistoryData" class="mat-elevation-z0">
       <!-- icon Column -->
       <ng-container matColumnDef="icon">
@@ -145,7 +145,7 @@
             ><mat-icon svgIcon="shirt"></mat-icon
           ></ng-container>
           <ng-container *ngIf="element.productType === 'sweat'"
-            ><mat-icon svgIcon="hoody"></mat-icon
+            ><mat-icon svgIcon="sweat"></mat-icon
           ></ng-container>
           <ng-container *ngIf="element.productType === 'mug'"
             ><mat-icon svgIcon="mug"></mat-icon
@@ -197,7 +197,7 @@
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Delivery date</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.statusChangeDate.getDate() }}
+          {{ dateBeautifier(element.statusChangeDate) }}
         </td>
       </ng-container>
 

@@ -1,0 +1,32 @@
+<div class="title" mat-dialog-title>
+  <mat-icon [svgIcon]="data"></mat-icon>
+  <span>{{ contentFill(data, "title") }}</span>
+</div>
+<div mat-dialog-content>
+  <p>{{ contentFill(data, "p") }}</p>
+</div>
+<div class="form-container">
+  <form [formGroup]="editForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Value</mat-label>
+      <input formControlName="value" matInput type="number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description </mat-label>
+      <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+  <button
+    mat-button
+    class="yes-btn"
+    [mat-dialog-close]="editForm.value"
+    cdkFocusInitial
+    [disabled]="!editForm.valid"
+  >
+    {{ data !== "edit" ? "Add" : "" }} {{ contentFill(data, "btn") }}
+  </button>
+</div>

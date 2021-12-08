@@ -4,13 +4,7 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   mugTypes,
@@ -41,11 +35,13 @@ export class RestockComponent implements OnInit, AfterViewChecked {
       size: ['', Validators.required],
       amount: ['', Validators.required],
       additionalProducts: this.fb.array([]),
+      totalPrice: ['', Validators.required],
     });
     this.restockMugsForm = this.fb.group({
       mugType: ['', Validators.required],
       amount: ['', Validators.required],
       additionalProducts: this.fb.array([]),
+      totalPrice: ['', Validators.required],
     });
   }
 
@@ -79,6 +75,8 @@ export class RestockComponent implements OnInit, AfterViewChecked {
     this.chosenProduct = product;
     this.restockForm.reset();
     this.restockMugsForm.reset();
+    this.formArrayCtrl.controls = [];
+    this.mugFormArrayCtrl.controls = [];
   }
 
   ngAfterViewChecked(): void {

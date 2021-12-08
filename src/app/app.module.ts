@@ -37,6 +37,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StockServiceService } from './shared/services/stock-service.service';
 import { reducer as productsReducer } from './store/stock/stock.reducer';
 import { reducer as ordersReducer } from './store/orders/order.reducer';
+import { reducer as recordsReducer } from './store/records/record.reducer';
 import { StockEffects } from './store/stock/stock.effects';
 import { OrderEffects } from './store/orders/order.effects';
 import { DeleteConfirmComponent } from './components/dialogs/delete-confirm/delete-confirm.component';
@@ -44,6 +45,9 @@ import { ChangeStatusComponent } from './components/dialogs/change-status/change
 import { NewOrderComponent } from './components/dialogs/new-order/new-order.component';
 import { NotInStockComponent } from './components/dialogs/not-in-stock/not-in-stock.component';
 import { RestockComponent } from './components/dialogs/restock/restock.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { RecordEffects } from './store/records/record.effects';
+import { BalanceEditComponent } from './components/dialogs/balance-edit/balance-edit.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +65,7 @@ import { RestockComponent } from './components/dialogs/restock/restock.component
     NewOrderComponent,
     NotInStockComponent,
     RestockComponent,
+    BalanceEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,8 +79,9 @@ import { RestockComponent } from './components/dialogs/restock/restock.component
     StoreModule.forRoot({
       products: productsReducer,
       orders: ordersReducer,
+      records: recordsReducer,
     }),
-    EffectsModule.forRoot([StockEffects, OrderEffects]),
+    EffectsModule.forRoot([StockEffects, OrderEffects, RecordEffects]),
 
     MatSidenavModule,
     MatListModule,
@@ -91,6 +97,8 @@ import { RestockComponent } from './components/dialogs/restock/restock.component
     MatInputModule,
     MatSelectModule,
     MatSlideToggleModule,
+
+    NgApexchartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

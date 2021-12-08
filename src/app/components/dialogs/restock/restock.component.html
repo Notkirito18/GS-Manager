@@ -10,7 +10,7 @@
       >
         <div>Sweat Shirt</div>
         <div class="card-icon-container">
-          <mat-icon class="card-icon" svgIcon="hoody"></mat-icon>
+          <mat-icon class="card-icon" svgIcon="sweat"></mat-icon>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
   </ng-container>
   <ng-container *ngIf="chosenProduct && chosenProduct !== 'mug'">
     <form [formGroup]="restockForm">
-      <div class="row">
+      <div class="row product-inputs-container">
         <!-- Color input -->
         <div class="col-sm-4 input-container">
           <mat-form-field appearance="outline">
@@ -103,7 +103,7 @@
         formArrayName="additionalProducts"
         *ngFor="let product of formArrayCtrl.controls; let i = index"
       >
-        <div class="row" [formGroupName]="i">
+        <div class="row product-inputs-container" [formGroupName]="i">
           <!-- Color input -->
           <div class="col-sm-4 input-container">
             <mat-form-field appearance="outline">
@@ -148,11 +148,16 @@
           </div>
         </div>
       </div>
+      <h3 class="options">Total Restock price :</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Total Price</mat-label>
+        <input type="number" matInput formControlName="totalPrice" />
+      </mat-form-field>
     </form>
   </ng-container>
   <ng-container *ngIf="chosenProduct && chosenProduct === 'mug'">
     <form [formGroup]="restockMugsForm">
-      <div class="row">
+      <div class="row product-inputs-container">
         <div class="col-sm-6">
           <!-- Mug Type input -->
           <mat-form-field appearance="outline">
@@ -180,7 +185,7 @@
         formArrayName="additionalProducts"
         *ngFor="let product of mugFormArrayCtrl.controls; let i = index"
       >
-        <div class="row" [formGroupName]="i">
+        <div class="row product-inputs-container" [formGroupName]="i">
           <div class="col-sm-6">
             <!-- Mug Type input -->
             <mat-form-field appearance="outline">
@@ -205,8 +210,15 @@
           </div>
         </div>
       </div>
+      <h3 class="options">Total Restock price :</h3>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Total Price</mat-label>
+        <input type="number" matInput formControlName="totalPrice" />
+      </mat-form-field>
     </form>
   </ng-container>
+
   <div mat-dialog-actions>
     <button
       class="cancel-btn"
@@ -228,7 +240,7 @@
               products: restockForm.value
             }
       "
-      [disabled]="false"
+      [disabled]="!(restockForm.valid || restockMugsForm.valid)"
     >
       Restock
     </button>

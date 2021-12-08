@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Order, Product } from 'src/app/shared/models';
+import { Order, Product, Record } from 'src/app/shared/models';
 import {
   addOrder,
   deleteOrder,
@@ -14,6 +14,7 @@ import {
   checkAvailabilityMug,
   chipColorer,
   colorer,
+  dateBeautifier,
   IdGenerator,
   nextStatus,
   productOrderedId,
@@ -34,6 +35,7 @@ import {
 } from 'src/app/store/stock/stock.actions';
 import { selectAllProducts } from 'src/app/store/stock/stock.selectors';
 import { NotInStockComponent } from 'src/app/components/dialogs/not-in-stock/not-in-stock.component';
+import { addRecord } from 'src/app/store/records/record.actions';
 
 @Component({
   selector: 'app-order',
@@ -44,6 +46,7 @@ export class OrderComponent implements OnInit {
   constructor(
     private ordersStore: Store<{ orders: Order[] }>,
     private productsStore: Store<{ products: Product[] }>,
+    private recordsStore: Store<{ records: Record[] }>,
     private dialog: MatDialog
   ) {}
 
@@ -219,6 +222,20 @@ export class OrderComponent implements OnInit {
         },
       })
     );
+    if (changedStatus === 'delivered') {
+      this.recordsStore.dispatch(
+        addRecord({
+          record: new Record(
+            IdGenerator(),
+            'Product Sale',
+            order.productType,
+            new Date(),
+            order.price,
+            order.productType === 'tshirt' ? 'shirt' : order.productType
+          ),
+        })
+      );
+    }
   }
 
   activeOrdersDisplayedColumns = activeOrdersDisplayedColumns;
@@ -232,4 +249,5 @@ export class OrderComponent implements OnInit {
   checkAvailability = checkAvailability;
   checkAvailabilityMug = checkAvailabilityMug;
   productOrderedId = productOrderedId;
+  dateBeautifier = dateBeautifier;
 }

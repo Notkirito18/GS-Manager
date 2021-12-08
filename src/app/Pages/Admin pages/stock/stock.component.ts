@@ -7,12 +7,13 @@ import {
   getCount,
   IdGenerator,
 } from 'src/app/shared/helper';
-import { Product } from 'src/app/shared/models';
+import { Product, Record } from 'src/app/shared/models';
 import { addProducts, loadProducts } from 'src/app/store/stock/stock.actions';
 import { selectAllProducts } from 'src/app/store/stock/stock.selectors';
 import { sizes, sweatColors, tshirtColors } from 'src/app/shared/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { RestockComponent } from 'src/app/components/dialogs/restock/restock.component';
+import { addRecord, editBalance } from 'src/app/store/records/record.actions';
 
 @Component({
   selector: 'app-stock',
@@ -25,6 +26,7 @@ export class StockComponent implements OnInit, OnDestroy {
 
   constructor(
     private productsStore: Store<{ products: Product[] }>,
+    private recordsStore: Store<{ records: Record[] }>,
     private dialog: MatDialog
   ) {}
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class StockComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
+        console.log(data);
         let productsToAdd: Product[] = [];
         if (data.productType === 'mug') {
           console.log('mug data', data);
@@ -115,7 +118,26 @@ export class StockComponent implements OnInit, OnDestroy {
 
         // dispatching products
         this.productsStore.dispatch(addProducts({ products: productsToAdd }));
-        console.log(productsToAdd);
+        // dispatching record
+        let totalAmount = data.products.amount;
+        for (let i = 0; i < data.products.additionalProducts.length; i++) {
+          totalAmount += data.products.additionalProducts[i].amount;
+        }
+        this.recordsStore.dispatch(
+          addRecord({
+            record: new Record(
+              IdGenerator(),
+              'Restock',
+              totalAmount + ' ' + data.productType,
+              new Date(),
+              data.products.totalPrice
+            ),
+          })
+        );
+        // dispatching balance edit
+        this.recordsStore.dispatch(
+          editBalance({ value: data.products.totalPrice, add: false })
+        );
       }
     });
   }

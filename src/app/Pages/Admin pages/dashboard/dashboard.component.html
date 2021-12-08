@@ -1,1 +1,101 @@
-<p>dashboard works!</p>
+<div class="container">
+  <h1 class="big-title">
+    <mat-icon class="title-icon">store</mat-icon>Dashboard
+  </h1>
+  <div class="cards row">
+    <div class="col-md-3 card-col">
+      <div class="card" style="justify-content: normal">
+        <button mat-mini-fab class="redirect-btn" routerLink="../wallet">
+          <mat-icon>login</mat-icon>
+        </button>
+        <div class="card-title">
+          <mat-icon matListIcon>attach_money</mat-icon> <span>Balance</span>
+        </div>
+        <div class="balance-value">{{ balance }} DZD</div>
+      </div>
+    </div>
+    <div class="col-md-4 card-col">
+      <div class="card">
+        <button mat-mini-fab class="redirect-btn" routerLink="../stock">
+          <mat-icon>login</mat-icon>
+        </button>
+        <div class="card-title">
+          <mat-icon matListIcon>inventory_2</mat-icon> <span>Stock</span>
+        </div>
+        <div class="card-icon-container">
+          <div class="row">
+            <div class="col-4">
+              <mat-icon class="card-icon" svgIcon="sweat"></mat-icon>
+            </div>
+            <div class="col-4">
+              <mat-icon class="card-icon" svgIcon="shirt"></mat-icon>
+            </div>
+            <div class="col-4">
+              <mat-icon class="card-icon" svgIcon="mug"></mat-icon>
+            </div>
+          </div>
+        </div>
+        <div class="data-container">
+          <div class="row">
+            <div class="col-4">
+              <span>{{ getCount(stock, "sweat") }}</span>
+            </div>
+            <div class="col-4">
+              <span>{{ getCount(stock, "tshirt") }}</span>
+            </div>
+            <div class="col-4">
+              <span>{{ getCount(stock, "mug") }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 card-col">
+      <div
+        class="card"
+        [ngStyle]="activeOrders.length > 4 ? { overflow: 'auto' } : {}"
+      >
+        <button mat-mini-fab class="redirect-btn" routerLink="../orders">
+          <mat-icon>login</mat-icon>
+        </button>
+        <div class="card-title">
+          <mat-icon matListIcon>store</mat-icon> <span>Active Orders</span>
+        </div>
+
+        <div *ngFor="let order of activeOrders" class="order">
+          <div class="row">
+            <div class="col-sm-3">
+              {{ productTypeBeautifier(order.productType) }}
+            </div>
+            <div class="col-sm-3">
+              {{ productTypeBeautifier(order.status) }}
+            </div>
+            <div class="col-sm-2">{{ order.price }}</div>
+            <div class="col-sm-4">
+              {{ dateBeautifier(order.statusChangeDate) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      chartOptions.series &&
+      chartOptions.chart &&
+      chartOptions.xaxis &&
+      chartOptions.title &&
+      chartOptions.colors
+    "
+    style="text-align: center"
+  >
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [title]="chartOptions.title"
+      [colors]="chartOptions.colors"
+    ></apx-chart>
+  </div>
+</div>

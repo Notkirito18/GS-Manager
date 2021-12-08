@@ -1,0 +1,24 @@
+.title,
+.mat-dialog-content {
+  text-align: center;
+}
+
+.mat-icon {
+  margin-right: 8px;
+}
+.title-icon {
+  margin-bottom: 15px;
+  transform: scale(2);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.mat-dialog-actions {
+  justify-content: space-around;
+}
+.yes-btn {
+  background-color: #f44336;
+  color: white;
+}
+.form-container {
+  text-align: center;
+}

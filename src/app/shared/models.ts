@@ -22,7 +22,7 @@ export class Order {
     public id: string,
     public productType: string,
     public price: number,
-    public status: 'new' | 'logo-ready' | 'ready' | 'delivered',
+    public status: 'new' | 'ready' | 'delivered',
     public statusChangeDate: Date,
     public logoDescription: string,
     public logoImages?: string[],
@@ -31,5 +31,23 @@ export class Order {
     public color?: string,
     public size?: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL',
     public byAdmin?: boolean
+  ) {}
+}
+
+export class Record {
+  constructor(
+    public id: string,
+    public type:
+      | 'Product Sale'
+      | 'Merchandise'
+      | 'Restock'
+      | 'Financing'
+      | 'Payment'
+      | 'Other',
+    public description: string,
+    public date: Date,
+    public value: number,
+    public productSold?: string,
+    public add?: boolean
   ) {}
 }

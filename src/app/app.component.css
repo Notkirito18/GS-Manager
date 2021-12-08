@@ -13,3 +13,6 @@ mat-sidenav {
   transform: scale(0.9);
   margin-right: 8px;
 }
+footer {
+  height: 300px;
+}
