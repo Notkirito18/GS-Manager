@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { BalanceEditComponent } from 'src/app/components/dialogs/balance-edit/balance-edit.component';
+import { EditRecordComponent } from 'src/app/components/dialogs/edit-record/edit-record.component';
 import {
   capitalCase,
   dateBeautifier,
@@ -19,6 +20,7 @@ import {
   editBalance,
   loadRecords,
   setBalance,
+  updateRecord,
 } from 'src/app/store/records/record.actions';
 import {
   selectAllRecords,
@@ -108,6 +110,43 @@ export class WalletComponent implements OnInit, OnDestroy {
           );
           this.recordsStore.dispatch(setBalance({ value: data.value }));
         }
+      }
+    });
+  }
+  openEditRecordDialog(record: Record) {
+    const dialogRef = this.dialog.open(EditRecordComponent, {
+      width: '450px',
+      data: record,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        // this.recordsStore.dispatch(
+        //   updateRecord({
+        //     update: new Record(
+        //       record.id,
+        //       data.type,
+        //       data.description,
+        //       data.date,
+        //       data.amount,
+        //       record.productSold,
+        //       record.add
+        //     ),
+        //   })
+        // );
+        this.recordsStore.dispatch(
+          updateRecord({
+            update: {
+              id: record.id,
+              changes: {
+                ...record,
+                value: data.amount,
+                description: data.description,
+                date: data.date,
+                type: data.type,
+              },
+            },
+          })
+        );
       }
     });
   }

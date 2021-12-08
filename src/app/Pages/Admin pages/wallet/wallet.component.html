@@ -56,7 +56,12 @@
       </div>
     </div>
   </ng-container>
-  <div class="table-row" *ngFor="let record of records">
+  <div
+    (click)="openEditRecordDialog(record)"
+    class="table-row"
+    *ngFor="let record of records"
+    matRipple
+  >
     <div class="left">
       <div class="icon-circle">
         <div class="circle" [ngStyle]="recordsColorer(record.type, true)">

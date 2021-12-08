@@ -1,0 +1,54 @@
+<div class="title" mat-dialog-title>
+  <mat-icon svgIcon="edit"></mat-icon>
+  <span>Edit record</span>
+</div>
+<div class="form-container">
+  <div class="expences-container">
+    <span matRipple class="income" [ngClass]="'clicked'">Income</span>
+    <span matRipple class="expence" [ngClass]="'clicked'">Expence</span>
+  </div>
+  <form [formGroup]="editForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option
+          class="option-container"
+          *ngFor="let type of recordTypes"
+          [value]="type"
+        >
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>amount</mat-label>
+      <input formControlName="amount" matInput type="number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput formControlName="date" [matDatepicker]="picker" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description </mat-label>
+      <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+  <button
+    mat-button
+    class="yes-btn"
+    [mat-dialog-close]="editForm.value"
+    cdkFocusInitial
+    [disabled]="!editForm.valid"
+  >
+    Edit
+  </button>
+</div>

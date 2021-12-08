@@ -17,6 +17,7 @@
   text-align: right;
 }
 .table-row {
+  cursor: pointer;
   background-color: rgba(0, 0, 0, 0.87);
   color: white;
   padding: 20px 15px;
@@ -53,6 +54,7 @@
   }
 }
 .head {
+  cursor: auto;
   align-items: center;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
