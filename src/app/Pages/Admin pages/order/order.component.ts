@@ -35,7 +35,9 @@ import {
 } from 'src/app/store/stock/stock.actions';
 import { selectAllProducts } from 'src/app/store/stock/stock.selectors';
 import { NotInStockComponent } from 'src/app/components/dialogs/not-in-stock/not-in-stock.component';
-import { addRecord } from 'src/app/store/records/record.actions';
+import { addRecord, editBalance } from 'src/app/store/records/record.actions';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order',
@@ -44,15 +46,25 @@ import { addRecord } from 'src/app/store/records/record.actions';
 })
 export class OrderComponent implements OnInit {
   constructor(
+    private mediaObserver: MediaObserver,
     private ordersStore: Store<{ orders: Order[] }>,
     private productsStore: Store<{ products: Product[] }>,
     private recordsStore: Store<{ records: Record[] }>,
     private dialog: MatDialog
   ) {}
 
+  screenSize = 'lg';
+  mediaSubscription!: Subscription;
   activeOrdersData: Order[] = [];
   ordersHistoryData: Order[] = [];
   ngOnInit(): void {
+    // screen Size
+    this.mediaSubscription = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        this.screenSize = result.mqAlias;
+      }
+    );
+    // loading data
     this.productsStore.dispatch(loadProducts());
     this.ordersStore.dispatch(loadOrders());
     this.ordersStore.select(selectAllOrders).subscribe((orders) => {
@@ -188,22 +200,44 @@ export class OrderComponent implements OnInit {
       data: orderToEdit,
     });
     dialogRef.afterClosed().subscribe((data) => {
+      let stock: Product[] = [];
+      let available = false;
       if (data) {
-        this.ordersStore.dispatch(
-          updateOrder({
-            update: {
-              id: orderToEdit.id,
-              changes: {
-                ...orderToEdit,
-                color: data.newOrder.color,
-                logoDescription: data.newOrder.logoDes,
-                logoImages: [data.newOrder.logoImage],
-                price: data.newOrder.price,
-                size: data.newOrder.size,
+        // check availability
+        this.productsStore.select(selectAllProducts).subscribe((products) => {
+          stock = products;
+        });
+        if (orderToEdit.productType === 'mug') {
+          available = checkAvailabilityMug(stock, data.newOrder.mugType);
+        } else {
+          available = checkAvailability(
+            stock,
+            data.productType,
+            data.newOrder.color,
+            data.newOrder.size
+          );
+        }
+        if (available) {
+          this.ordersStore.dispatch(
+            updateOrder({
+              update: {
+                id: orderToEdit.id,
+                changes: {
+                  ...orderToEdit,
+                  color: data.newOrder.color,
+                  logoDescription: data.newOrder.logoDes,
+                  logoImages: [data.newOrder.logoImage],
+                  price: data.newOrder.price,
+                  size: data.newOrder.size,
+                },
               },
-            },
-          })
-        );
+            })
+          );
+        } else {
+          this.dialog.open(NotInStockComponent, {
+            width: '250px',
+          });
+        }
       }
     });
   }
@@ -231,9 +265,14 @@ export class OrderComponent implements OnInit {
             order.productType,
             new Date(),
             order.price,
+            true,
             order.productType === 'tshirt' ? 'shirt' : order.productType
           ),
         })
+      );
+      // dispatching balance edit
+      this.recordsStore.dispatch(
+        editBalance({ value: order.price, add: true })
       );
     }
   }

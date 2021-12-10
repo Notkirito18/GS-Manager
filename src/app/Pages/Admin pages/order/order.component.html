@@ -1,4 +1,4 @@
-<div class="container">
+<div class="all-container">
   <div class="row title-container">
     <div class="col-6">
       <h1 class="big-title">
@@ -12,210 +12,225 @@
     </div>
   </div>
 
-  <!-- first table -->
+  <!-- Tables View -->
+  <ng-container
+    *ngIf="screenSize === 'lg' || screenSize === 'xl'; else expansionView"
+  >
+    <!-- first table -->
 
-  <div class="active-orders-container">
-    <h2 class="table-title">Active orders</h2>
-    <table mat-table [dataSource]="activeOrdersData" class="mat-elevation-z0">
-      <!-- icon Column -->
-      <ng-container matColumnDef="icon">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.productType === 'tshirt'"
-            ><mat-icon svgIcon="shirt"></mat-icon
-          ></ng-container>
-          <ng-container *ngIf="element.productType === 'sweat'"
-            ><mat-icon svgIcon="sweat"></mat-icon
-          ></ng-container>
-          <ng-container *ngIf="element.productType === 'mug'"
-            ><mat-icon svgIcon="mug"></mat-icon
-          ></ng-container>
-        </td>
-      </ng-container>
+    <div class="active-orders-container">
+      <h2 class="table-title">Active orders</h2>
+      <table mat-table [dataSource]="activeOrdersData" class="mat-elevation-z0">
+        <!-- icon Column -->
+        <ng-container matColumnDef="icon">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.productType === 'tshirt'"
+              ><mat-icon svgIcon="shirt"></mat-icon
+            ></ng-container>
+            <ng-container *ngIf="element.productType === 'sweat'"
+              ><mat-icon svgIcon="sweat"></mat-icon
+            ></ng-container>
+            <ng-container *ngIf="element.productType === 'mug'"
+              ><mat-icon svgIcon="mug"></mat-icon
+            ></ng-container>
+          </td>
+        </ng-container>
 
-      <!-- product Column -->
-      <ng-container matColumnDef="product">
-        <th mat-header-cell *matHeaderCellDef>Product</th>
-        <td mat-cell *matCellDef="let element">
-          {{ productTypeBeautifier(element.productType) }}
-        </td>
-      </ng-container>
+        <!-- product Column -->
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let element">
+            {{ productTypeBeautifier(element.productType) }}
+          </td>
+        </ng-container>
 
-      <!-- color Column -->
-      <ng-container matColumnDef="color">
-        <th mat-header-cell *matHeaderCellDef>Color / Mug Type</th>
-        <td mat-cell *matCellDef="let element">
-          <span class="status-chip" [ngStyle]="colorer(element.color)">{{
-            capitalCase(
-              element.productType === "mug" ? element.mugType : element.color
-            )
-          }}</span>
-        </td>
-      </ng-container>
+        <!-- color Column -->
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef>Color / Mug Type</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="status-chip" [ngStyle]="colorer(element.color)">{{
+              capitalCase(
+                element.productType === "mug" ? element.mugType : element.color
+              )
+            }}</span>
+          </td>
+        </ng-container>
 
-      <!-- size Column -->
-      <ng-container matColumnDef="size">
-        <th mat-header-cell *matHeaderCellDef>Size</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.size }}
-        </td>
-      </ng-container>
+        <!-- size Column -->
+        <ng-container matColumnDef="size">
+          <th mat-header-cell *matHeaderCellDef>Size</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.size }}
+          </td>
+        </ng-container>
 
-      <!-- logoDes Column -->
-      <ng-container matColumnDef="logoDes">
-        <th mat-header-cell *matHeaderCellDef>Logo</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.logoDescription }}
-        </td>
-      </ng-container>
+        <!-- logoDes Column -->
+        <ng-container matColumnDef="logoDes">
+          <th mat-header-cell *matHeaderCellDef>Logo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.logoDescription }}
+          </td>
+        </ng-container>
 
-      <!-- price Column -->
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef>Price</th>
-        <td mat-cell *matCellDef="let element">{{ element.price }} DA</td>
-      </ng-container>
+        <!-- price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element">{{ element.price }} DA</td>
+        </ng-container>
 
-      <!-- date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Last Modified</th>
-        <td mat-cell *matCellDef="let element">
-          {{ dateBeautifier(element.statusChangeDate) }}
-        </td>
-      </ng-container>
+        <!-- date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Last Modified</th>
+          <td mat-cell *matCellDef="let element">
+            {{ dateBeautifier(element.statusChangeDate) }}
+          </td>
+        </ng-container>
 
-      <!-- status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element">
-          <span
-            matRipple
-            [matRippleRadius]="15"
-            class="status-chip pointer"
-            (click)="openStatusChangeDialog(element)"
-            [ngStyle]="chipColorer(element.status)"
-            >{{ productTypeBeautifier(element.status) }}</span
-          >
-        </td>
-      </ng-container>
+        <!-- status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              matRipple
+              [matRippleRadius]="15"
+              class="status-chip pointer"
+              (click)="openStatusChangeDialog(element)"
+              [ngStyle]="chipColorer(element.status)"
+              >{{ productTypeBeautifier(element.status) }}</span
+            >
+          </td>
+        </ng-container>
 
-      <!-- actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="openEditOrderDialog(element)">
-              <mat-icon>mode_edit</mat-icon> Edit
+        <!-- actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <button mat-menu-item (click)="openCancelOrderDialog(element)">
-              <mat-icon color="warn">delete</mat-icon>
-              Cancel Order
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-      <!-- Row to show when no data match the filter  -->
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="openEditOrderDialog(element)">
+                <mat-icon>mode_edit</mat-icon> Edit
+              </button>
+              <button mat-menu-item (click)="openCancelOrderDialog(element)">
+                <mat-icon color="warn">delete</mat-icon>
+                Cancel Order
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <!-- Row to show when no data match the filter  -->
 
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-orders" colspan="4">
-          There are no active orders at the moment.
-        </td>
-      </tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-orders" colspan="4">
+            There are no active orders at the moment.
+          </td>
+        </tr>
 
-      <tr mat-header-row *matHeaderRowDef="activeOrdersDisplayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: activeOrdersDisplayedColumns"
-      ></tr>
-    </table>
-  </div>
+        <tr mat-header-row *matHeaderRowDef="activeOrdersDisplayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: activeOrdersDisplayedColumns"
+        ></tr>
+      </table>
+    </div>
 
-  <!-- second table -->
+    <!-- second table -->
 
-  <div class="orders-history-container">
-    <h2 class="table-title">Sales History</h2>
-    <table mat-table [dataSource]="ordersHistoryData" class="mat-elevation-z0">
-      <!-- icon Column -->
-      <ng-container matColumnDef="icon">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.productType === 'tshirt'"
-            ><mat-icon svgIcon="shirt"></mat-icon
-          ></ng-container>
-          <ng-container *ngIf="element.productType === 'sweat'"
-            ><mat-icon svgIcon="sweat"></mat-icon
-          ></ng-container>
-          <ng-container *ngIf="element.productType === 'mug'"
-            ><mat-icon svgIcon="mug"></mat-icon
-          ></ng-container>
-        </td>
-      </ng-container>
+    <div class="orders-history-container">
+      <h2 class="table-title">Sales History</h2>
+      <table
+        mat-table
+        [dataSource]="ordersHistoryData"
+        class="mat-elevation-z0"
+      >
+        <!-- icon Column -->
+        <ng-container matColumnDef="icon">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.productType === 'tshirt'"
+              ><mat-icon svgIcon="shirt"></mat-icon
+            ></ng-container>
+            <ng-container *ngIf="element.productType === 'sweat'"
+              ><mat-icon svgIcon="sweat"></mat-icon
+            ></ng-container>
+            <ng-container *ngIf="element.productType === 'mug'"
+              ><mat-icon svgIcon="mug"></mat-icon
+            ></ng-container>
+          </td>
+        </ng-container>
 
-      <!-- product Column -->
-      <ng-container matColumnDef="product">
-        <th mat-header-cell *matHeaderCellDef>Product</th>
-        <td mat-cell *matCellDef="let element">
-          {{ productTypeBeautifier(element.productType) }}
-        </td>
-      </ng-container>
+        <!-- product Column -->
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let element">
+            {{ productTypeBeautifier(element.productType) }}
+          </td>
+        </ng-container>
 
-      <!-- color Column -->
-      <ng-container matColumnDef="color">
-        <th mat-header-cell *matHeaderCellDef>Color / Mug Type</th>
-        <td mat-cell *matCellDef="let element">
-          <span class="status-chip" [ngStyle]="colorer(element.color)">{{
-            capitalCase(
-              element.productType === "mug" ? element.mugType : element.color
-            )
-          }}</span>
-        </td>
-      </ng-container>
+        <!-- color Column -->
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef>Color / Mug Type</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="status-chip" [ngStyle]="colorer(element.color)">{{
+              capitalCase(
+                element.productType === "mug" ? element.mugType : element.color
+              )
+            }}</span>
+          </td>
+        </ng-container>
 
-      <!-- size Column -->
-      <ng-container matColumnDef="size">
-        <th mat-header-cell *matHeaderCellDef>Size</th>
-        <td mat-cell *matCellDef="let element">{{ element.size }}</td>
-      </ng-container>
+        <!-- size Column -->
+        <ng-container matColumnDef="size">
+          <th mat-header-cell *matHeaderCellDef>Size</th>
+          <td mat-cell *matCellDef="let element">{{ element.size }}</td>
+        </ng-container>
 
-      <!-- logoDes Column -->
-      <ng-container matColumnDef="logoDes">
-        <th mat-header-cell *matHeaderCellDef>Logo</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.logoDescription }}
-        </td>
-      </ng-container>
+        <!-- logoDes Column -->
+        <ng-container matColumnDef="logoDes">
+          <th mat-header-cell *matHeaderCellDef>Logo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.logoDescription }}
+          </td>
+        </ng-container>
 
-      <!-- price Column -->
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef>Price</th>
-        <td mat-cell *matCellDef="let element">{{ element.price }} DA</td>
-      </ng-container>
+        <!-- price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element">{{ element.price }} DA</td>
+        </ng-container>
 
-      <!-- date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Delivery date</th>
-        <td mat-cell *matCellDef="let element">
-          {{ dateBeautifier(element.statusChangeDate) }}
-        </td>
-      </ng-container>
+        <!-- date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Delivery date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ dateBeautifier(element.statusChangeDate) }}
+          </td>
+        </ng-container>
 
-      <!-- status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element">
-          <span class="status-chip" [ngStyle]="chipColorer(element.status)">{{
-            productTypeBeautifier(element.status)
-          }}</span>
-        </td>
-      </ng-container>
+        <!-- status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="status-chip" [ngStyle]="chipColorer(element.status)">{{
+              productTypeBeautifier(element.status)
+            }}</span>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="ordersHistoryDisplayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: ordersHistoryDisplayedColumns"
-      ></tr>
-    </table>
-  </div>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="ordersHistoryDisplayedColumns"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ordersHistoryDisplayedColumns"
+        ></tr>
+      </table>
+    </div>
+  </ng-container>
+  <ng-template #expansionView>
+    <div class="expansion-view-container"></div>
+  </ng-template>
 </div>

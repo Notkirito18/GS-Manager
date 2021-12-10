@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  URL: 'https://gs-manager-6498c-default-rtdb.firebaseio.com/',
 };
 
 /*

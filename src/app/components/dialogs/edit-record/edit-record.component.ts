@@ -16,19 +16,13 @@ export class EditRecordComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Record
   ) {}
 
-  recordTypes = [
-    'Product Sale',
-    'Merchandise',
-    'Restock',
-    'Financing',
-    'Payment',
-    'Other',
-  ];
+  add!: boolean;
   expenceRecordTypes = ['Merchandise', 'Restock', 'Payment', 'Other'];
-  incomeRecordTypes = ['Financing', 'Other'];
+  incomeRecordTypes = ['Product Sale', 'Financing', 'Other'];
 
   editForm!: FormGroup;
   ngOnInit(): void {
+    this.add = this.data.add;
     this.editForm = this.fb.group({
       type: [this.data.type, Validators.required],
       amount: [this.data.value, Validators.required],

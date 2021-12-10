@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { BalanceEditComponent } from 'src/app/components/dialogs/balance-edit/balance-edit.component';
 import { EditRecordComponent } from 'src/app/components/dialogs/edit-record/edit-record.component';
 import {
-  capitalCase,
   dateBeautifier,
   editTypeToType,
   IdGenerator,
@@ -17,13 +16,16 @@ import {
 import { Record } from 'src/app/shared/models';
 import {
   addRecord,
-  editBalance,
+  deleteRecord,
   loadRecords,
-  setBalance,
   updateRecord,
+  editBalance,
+  setBalance,
+  loadBalance,
 } from 'src/app/store/records/record.actions';
 import {
   selectAllRecords,
+  selectAllRecordsAndBalance,
   selectBalance,
 } from 'src/app/store/records/record.selectors';
 
@@ -43,6 +45,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   mediaSubscription!: Subscription;
   balance!: number;
   records!: Record[];
+  loading = true;
 
   ngOnInit(): void {
     // screen Size
@@ -53,12 +56,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     );
     // loading records
     this.recordsStore.dispatch(loadRecords());
-    this.recordsStore.select(selectAllRecords).subscribe((records) => {
-      this.records = records;
-    });
-    // loading balance
-    this.recordsStore.select(selectBalance).subscribe((balance) => {
-      this.balance = balance;
+    this.recordsStore.dispatch(loadBalance());
+    this.recordsStore.select(selectAllRecordsAndBalance).subscribe((state) => {
+      this.records = state.records;
+      this.balance = state.balance;
+      this.loading = false;
     });
   }
 
@@ -68,7 +70,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   openBalanceEditDialog(editType: string) {
     const dialogRef = this.dialog.open(BalanceEditComponent, {
-      width: '350px',
+      width: '300px',
       data: editType,
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -81,7 +83,8 @@ export class WalletComponent implements OnInit, OnDestroy {
                 editTypeToType(editType),
                 data.description,
                 new Date(),
-                data.value
+                data.value,
+                editType === 'financing'
               ),
             })
           );
@@ -103,7 +106,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 data.description,
                 new Date(),
                 Math.abs(data.value - this.balance),
-                undefined,
                 data.value > this.balance
               ),
             })
@@ -120,33 +122,53 @@ export class WalletComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        // this.recordsStore.dispatch(
-        //   updateRecord({
-        //     update: new Record(
-        //       record.id,
-        //       data.type,
-        //       data.description,
-        //       data.date,
-        //       data.amount,
-        //       record.productSold,
-        //       record.add
-        //     ),
-        //   })
-        // );
-        this.recordsStore.dispatch(
-          updateRecord({
-            update: {
-              id: record.id,
-              changes: {
-                ...record,
-                value: data.amount,
-                description: data.description,
-                date: data.date,
-                type: data.type,
+        if (data.delete) {
+          this.recordsStore.dispatch(deleteRecord({ _id: record.id }));
+          // fixing balance
+          if (record.add) {
+            this.recordsStore.dispatch(
+              editBalance({ value: record.value, add: false })
+            );
+          } else {
+            this.recordsStore.dispatch(
+              editBalance({ value: record.value, add: true })
+            );
+          }
+        } else {
+          this.recordsStore.dispatch(
+            updateRecord({
+              update: {
+                id: record.id,
+                changes: {
+                  ...record,
+                  value: data.formValue.amount,
+                  description: data.formValue.description,
+                  date: data.formValue.date,
+                  type: data.formValue.type,
+                  add: data.add,
+                },
               },
-            },
-          })
-        );
+            })
+          );
+          // fixing balance
+          let balanceDifference = 0;
+          if (record.add) {
+            balanceDifference -= record.value;
+          } else {
+            balanceDifference += record.value;
+          }
+          if (data.add) {
+            balanceDifference += data.formValue.amount;
+          } else {
+            balanceDifference -= data.formValue.amount;
+          }
+          this.recordsStore.dispatch(
+            editBalance({
+              value: Math.abs(balanceDifference),
+              add: balanceDifference > 0,
+            })
+          );
+        }
       }
     });
   }

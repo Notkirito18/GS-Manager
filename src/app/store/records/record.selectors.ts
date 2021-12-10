@@ -24,3 +24,11 @@ export const selectBalance = createSelector(
   selectRecordState,
   fromRecord.selectBalance
 );
+
+export const selectAllRecordsAndBalance = createSelector(
+  selectAllRecords,
+  selectBalance,
+  (records, balance) => {
+    return { records: records, balance: balance };
+  }
+);

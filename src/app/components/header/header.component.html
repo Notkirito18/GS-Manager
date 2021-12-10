@@ -1,7 +1,9 @@
 <mat-toolbar>
-  <button mat-icon-button (click)="onToggleMenu()">
+  <button class="menu-toggle-btn" mat-icon-button (click)="onToggleMenu()">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Gift Store</span>
-  <span class="menu-spacer"></span>
+  <span class="title-container">
+    <mat-icon class="logo" svgIcon="gslogo"></mat-icon>
+    <span> Gift Store Admin</span>
+  </span>
 </mat-toolbar>

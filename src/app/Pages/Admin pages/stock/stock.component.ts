@@ -130,7 +130,8 @@ export class StockComponent implements OnInit, OnDestroy {
               'Restock',
               totalAmount + ' ' + data.productType,
               new Date(),
-              data.products.totalPrice
+              data.products.totalPrice,
+              false
             ),
           })
         );

@@ -1,102 +1,110 @@
-<div class="container">
-  <div class="row">
-    <div class="col-6 big-title">
-      <mat-icon class="title-icon" svgIcon="wallet"></mat-icon>
-      <span>Wallet</span>
+<ng-container *ngIf="loading; else loaded"
+  ><div class="container"><h1>loading...</h1></div></ng-container
+>
+<ng-template #loaded>
+  <div class="container">
+    <div class="row">
+      <div class="col-6 big-title">
+        <mat-icon class="title-icon" svgIcon="wallet"></mat-icon>
+        <span>Wallet</span>
+      </div>
+      <div class="col-6 title-button">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button (click)="openBalanceEditDialog('financing')" mat-menu-item>
+            <mat-icon
+              svgIcon="financing"
+              style="color: rgb(45, 198, 83)"
+            ></mat-icon
+            >Finance
+          </button>
+          <button (click)="openBalanceEditDialog('payment')" mat-menu-item>
+            <mat-icon
+              svgIcon="payment"
+              style="color: rgb(244, 67, 54)"
+            ></mat-icon
+            >Payement
+          </button>
+          <button (click)="openBalanceEditDialog('merchandise')" mat-menu-item>
+            <mat-icon
+              svgIcon="merchandise"
+              style="color: rgb(244, 67, 54)"
+            ></mat-icon
+            >Merchandise
+          </button>
+          <button (click)="openBalanceEditDialog('edit')" mat-menu-item>
+            <mat-icon>edit</mat-icon>Set Balance
+          </button>
+        </mat-menu>
+      </div>
     </div>
-    <div class="col-6 title-button">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" xPosition="before">
-        <button (click)="openBalanceEditDialog('financing')" mat-menu-item>
-          <mat-icon
-            svgIcon="financing"
-            style="color: rgb(45, 198, 83)"
-          ></mat-icon
-          >Finance
-        </button>
-        <button (click)="openBalanceEditDialog('payment')" mat-menu-item>
-          <mat-icon svgIcon="payment" style="color: rgb(244, 67, 54)"></mat-icon
-          >Payement
-        </button>
-        <button (click)="openBalanceEditDialog('merchandise')" mat-menu-item>
-          <mat-icon
-            svgIcon="merchandise"
-            style="color: rgb(244, 67, 54)"
-          ></mat-icon
-          >Merchandise
-        </button>
-        <button (click)="openBalanceEditDialog('edit')" mat-menu-item>
-          <mat-icon>edit</mat-icon>Set Balance
-        </button>
-      </mat-menu>
-    </div>
-  </div>
 
-  <ng-container
-    *ngIf="screenSize === 'md' || screenSize === 'lg' || screenSize === 'xl'"
-  >
-    <div class="table-row head">
+    <ng-container
+      *ngIf="screenSize === 'md' || screenSize === 'lg' || screenSize === 'xl'"
+    >
+      <div class="table-row head">
+        <div class="left">
+          <div class="title head-title">Records :</div>
+        </div>
+        <div class="right">
+          <div class="title balance-title">Balance : {{ balance }} DZD</div>
+        </div>
+      </div></ng-container
+    >
+    <ng-container *ngIf="screenSize === 'sm' || screenSize === 'xs'">
+      <div class="table-row head table-row-responsive">
+        <div class="right right-responsive">
+          <div class="title balance-title">Balance : {{ balance }} DZD</div>
+        </div>
+        <div class="left left-responsive">
+          <div class="title head-title head-title-responsive">Records :</div>
+        </div>
+      </div>
+    </ng-container>
+    <div
+      (click)="openEditRecordDialog(record)"
+      class="table-row"
+      *ngFor="let record of records"
+      matRipple
+    >
       <div class="left">
-        <div class="title head-title">Records :</div>
-      </div>
-      <div class="right">
-        <div class="title balance-title">Balance : {{ balance }} DZD</div>
-      </div>
-    </div></ng-container
-  >
-  <ng-container *ngIf="screenSize === 'sm' || screenSize === 'xs'">
-    <div class="table-row head table-row-responsive">
-      <div class="right right-responsive">
-        <div class="title balance-title">Balance : {{ balance }} DZD</div>
-      </div>
-      <div class="left left-responsive">
-        <div class="title head-title head-title-responsive">Records :</div>
-      </div>
-    </div>
-  </ng-container>
-  <div
-    (click)="openEditRecordDialog(record)"
-    class="table-row"
-    *ngFor="let record of records"
-    matRipple
-  >
-    <div class="left">
-      <div class="icon-circle">
-        <div class="circle" [ngStyle]="recordsColorer(record.type, true)">
-          <mat-icon
-            [svgIcon]="
-              record.type === 'Product Sale'
-                ? recordIconChooser(record.type, record.productSold)
-                : recordIconChooser(record.type)
-            "
-          ></mat-icon>
+        <div class="icon-circle">
+          <div class="circle" [ngStyle]="recordsColorer(record.type, true)">
+            <mat-icon
+              [svgIcon]="
+                record.type === 'Product Sale'
+                  ? recordIconChooser(record.type, record.productSold)
+                  : recordIconChooser(record.type)
+              "
+            ></mat-icon>
+          </div>
+        </div>
+        <div class="info">
+          <div class="title">{{ record.type }}</div>
+          <div class="subtitle">
+            {{ record.description.slice(0, 15) }}
+          </div>
         </div>
       </div>
-      <div class="info">
-        <div class="title">{{ record.type }}</div>
+      <div class="info right">
+        <div class="title" [ngStyle]="recordsColorer(record.type)">
+          {{
+            record.type !== "Other"
+              ? recordsColorer(record.type).color === "#f44336"
+                ? "-"
+                : "+"
+              : record.add
+              ? "+"
+              : "-"
+          }}
+          {{ record.value }} DZD
+        </div>
         <div class="subtitle">
-          {{ record.description.slice(0, 15) }}
+          {{ dateBeautifier(record.date, true) }}
         </div>
-      </div>
-    </div>
-    <div class="info right">
-      <div class="title" [ngStyle]="recordsColorer(record.type)">
-        {{
-          record.type !== "Other"
-            ? recordsColorer(record.type).color === "#f44336"
-              ? "-"
-              : "+"
-            : record.add
-            ? "+"
-            : "-"
-        }}
-        {{ record.value }} DZD
-      </div>
-      <div class="subtitle">
-        {{ dateBeautifier(record.date, true) }}
       </div>
     </div>
   </div>
-</div>
+</ng-template>

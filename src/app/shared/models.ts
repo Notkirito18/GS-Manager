@@ -47,7 +47,7 @@ export class Record {
     public description: string,
     public date: Date,
     public value: number,
-    public productSold?: string,
-    public add?: boolean
+    public add: boolean,
+    public productSold?: string
   ) {}
 }

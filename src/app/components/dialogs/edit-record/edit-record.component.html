@@ -4,8 +4,20 @@
 </div>
 <div class="form-container">
   <div class="expences-container">
-    <span matRipple class="income" [ngClass]="'clicked'">Income</span>
-    <span matRipple class="expence" [ngClass]="'clicked'">Expence</span>
+    <span
+      matRipple
+      class="income"
+      (click)="add = !add"
+      [ngClass]="add ? 'income-clicked' : ''"
+      >Income</span
+    >
+    <span
+      matRipple
+      class="expence"
+      (click)="add = !add"
+      [ngClass]="!add ? 'expence-clicked' : ''"
+      >Expence</span
+    >
   </div>
   <form [formGroup]="editForm">
     <mat-form-field appearance="outline">
@@ -13,7 +25,7 @@
       <mat-select formControlName="type">
         <mat-option
           class="option-container"
-          *ngFor="let type of recordTypes"
+          *ngFor="let type of add ? incomeRecordTypes : expenceRecordTypes"
           [value]="type"
         >
           {{ type }}
@@ -44,11 +56,20 @@
   <button mat-button (click)="this.dialogRef.close()">Cancel</button>
   <button
     mat-button
-    class="yes-btn"
-    [mat-dialog-close]="editForm.value"
+    [ngClass]="add ? 'income-clicked' : 'expence-clicked'"
+    [mat-dialog-close]="{ formValue: editForm.value, add: add }"
     cdkFocusInitial
     [disabled]="!editForm.valid"
   >
-    Edit
+    <mat-icon>edit</mat-icon> Edit
+  </button>
+  <button
+    mat-button
+    class="delete-btn"
+    [mat-dialog-close]="{ formValue: editForm.value, add: add, delete: true }"
+    cdkFocusInitial
+    [disabled]="!editForm.valid"
+  >
+    <mat-icon>delete</mat-icon> Delete
   </button>
 </div>

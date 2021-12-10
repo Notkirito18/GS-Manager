@@ -41,7 +41,12 @@ export const reducer = createReducer(
     return state;
   }),
 
+  // add order + success
+
   on(OrderActions.addOrder, (state, { order }) => {
+    return state;
+  }),
+  on(OrderActions.addOrderSuccess, (state, { order }) => {
     return adapter.addOne(order, state);
   }),
   on(OrderActions.setOrder, (state, { order }) => {
@@ -56,7 +61,11 @@ export const reducer = createReducer(
   on(OrderActions.upsertOrders, (state, { orders }) => {
     return adapter.upsertMany(orders, state);
   }),
+  // update order + success
   on(OrderActions.updateOrder, (state, { update }) => {
+    return adapter.updateOne(update, state);
+  }),
+  on(OrderActions.updateOrderSuccess, (state, { update }) => {
     return adapter.updateOne(update, state);
   }),
   on(OrderActions.updateOrders, (state, { updates }) => {
@@ -68,7 +77,11 @@ export const reducer = createReducer(
   on(OrderActions.mapOrders, (state, { entityMap }) => {
     return adapter.map(entityMap, state);
   }),
+  // delete order + success
   on(OrderActions.deleteOrder, (state, { _id }) => {
+    return state;
+  }),
+  on(OrderActions.deleteOrderSuccess, (state, { _id }) => {
     return adapter.removeOne(_id, state);
   }),
 

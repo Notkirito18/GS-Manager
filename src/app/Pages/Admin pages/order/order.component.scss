@@ -1,7 +1,12 @@
+.all-container {
+  margin: auto;
+  max-width: 1200px;
+}
 .title-container {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  padding: 0px 16px;
   .big-title {
     color: #212529;
     font-size: 34px;
@@ -26,7 +31,7 @@
 }
 .active-orders-container {
   padding: 15px 15px 40px;
-  min-width: 1100px;
+  min-width: 900px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin-bottom: 30px;
   .table-title {
@@ -86,7 +91,7 @@
 }
 .orders-history-container {
   padding: 15px 15px 40px;
-  min-width: 1100px;
+  min-width: 900px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin-bottom: 30px;
   .table-title {
@@ -132,4 +137,7 @@
 .no-orders {
   color: rgba(0, 0, 0, 0.54);
   font-size: 17px;
+}
+.expansion-view-container {
+  margin: auto;
 }

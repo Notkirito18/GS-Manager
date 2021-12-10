@@ -41,24 +41,42 @@ export const reducer = createReducer(
     return state;
   }),
 
+  // add product + success
+
   on(ProductActions.addProduct, (state, { product }) => {
+    return state;
+  }),
+  on(ProductActions.addProductSuccess, (state, { product }) => {
     return adapter.addOne(product, state);
   }),
+
   on(ProductActions.setProduct, (state, { product }) => {
     return adapter.setOne(product, state);
   }),
   on(ProductActions.upsertProduct, (state, { product }) => {
     return adapter.upsertOne(product, state);
   }),
+  // add products + success
   on(ProductActions.addProducts, (state, { products }) => {
+    return state;
+  }),
+  on(ProductActions.addProductsSuccess, (state, { products }) => {
     return adapter.addMany(products, state);
   }),
   on(ProductActions.upsertProducts, (state, { products }) => {
     return adapter.upsertMany(products, state);
   }),
+
+  // update product + success
+
   on(ProductActions.updateProduct, (state, { update }) => {
     return adapter.updateOne(update, state);
   }),
+
+  on(ProductActions.updateProductSuccess, (state, { update }) => {
+    return adapter.updateOne(update, state);
+  }),
+
   on(ProductActions.updateProducts, (state, { updates }) => {
     return adapter.updateMany(updates, state);
   }),
@@ -68,7 +86,11 @@ export const reducer = createReducer(
   on(ProductActions.mapProducts, (state, { entityMap }) => {
     return adapter.map(entityMap, state);
   }),
+  // delete record + success
   on(ProductActions.deleteProduct, (state, { _id }) => {
+    return state;
+  }),
+  on(ProductActions.deleteProductSuccess, (state, { _id }) => {
     return adapter.removeOne(_id, state);
   }),
 

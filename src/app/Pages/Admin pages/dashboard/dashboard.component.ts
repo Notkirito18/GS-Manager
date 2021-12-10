@@ -28,6 +28,7 @@ import {
 } from 'ng-apexcharts';
 import { Breakpoints } from '@angular/cdk/layout';
 import { selectBalance } from 'src/app/store/records/record.selectors';
+import { loadBalance } from 'src/app/store/records/record.actions';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -109,6 +110,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productsStore.dispatch(loadProducts());
     this.ordersStore.dispatch(loadOrders());
+    this.ordersStore.dispatch(loadBalance());
     this.stockRef$ = this.productsStore
       .select(selectAllProducts)
       .subscribe((products) => {

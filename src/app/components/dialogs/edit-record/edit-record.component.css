@@ -18,7 +18,7 @@
 .mat-form-field {
   width: 60%;
 }
-.yes-btn {
+.delete-btn {
   background-color: #f44336;
   color: white;
 }
@@ -39,12 +39,11 @@
   border-radius: 15px;
   cursor: pointer;
 }
-/* .income {
+.income-clicked {
   background-color: #2dc653;
+  color: white;
 }
-.expence {
+.expence-clicked {
   background-color: #f44336;
-} */
-.clicked {
-  border: 2px solid rgb(59, 59, 59);
+  color: white;
 }

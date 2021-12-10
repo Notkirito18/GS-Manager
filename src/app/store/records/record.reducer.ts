@@ -15,19 +15,26 @@ export function selectRecordId(a: Record): string {
 }
 
 export function sortByName(a: Record, b: Record): number {
-  return a.type.localeCompare(b.type);
+  if (a.date > b.date) {
+    return -1;
+  }
+  if (a.date < b.date) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 export const adapter: EntityAdapter<Record> = createEntityAdapter<Record>({
   selectId: selectRecordId,
-  sortComparer: false,
+  sortComparer: sortByName,
 });
 
 export const initialState: State = adapter.getInitialState({
   ids: [],
   entities: {},
   // additional entity state properties
-  balance: 9800,
+  balance: 0,
 });
 
 export const reducer = createReducer(
@@ -43,9 +50,26 @@ export const reducer = createReducer(
     return state;
   }),
 
+  // load balance
+  on(RecordActions.loadBalance, (state) => {
+    return state;
+  }),
+  on(RecordActions.loadBalanceSuccess, (state, { balance }) => {
+    return {
+      ...state,
+      balance: balance,
+    };
+  }),
+
+  // add record + success
   on(RecordActions.addRecord, (state, { record }) => {
+    return state;
+  }),
+
+  on(RecordActions.addRecordSuccess, (state, { record }) => {
     return adapter.addOne(record, state);
   }),
+
   on(RecordActions.setRecord, (state, { record }) => {
     return adapter.setOne(record, state);
   }),
@@ -58,9 +82,15 @@ export const reducer = createReducer(
   on(RecordActions.upsertRecords, (state, { records }) => {
     return adapter.upsertMany(records, state);
   }),
+  // update record + success
   on(RecordActions.updateRecord, (state, { update }) => {
     return adapter.updateOne(update, state);
   }),
+
+  on(RecordActions.updateRecordSuccess, (state, { update }) => {
+    return adapter.updateOne(update, state);
+  }),
+
   on(RecordActions.updateRecords, (state, { updates }) => {
     return adapter.updateMany(updates, state);
   }),
@@ -70,7 +100,11 @@ export const reducer = createReducer(
   on(RecordActions.mapRecords, (state, { entityMap }) => {
     return adapter.map(entityMap, state);
   }),
+  // delete record + success
   on(RecordActions.deleteRecord, (state, { _id }) => {
+    return state;
+  }),
+  on(RecordActions.deleteRecordSuccess, (state, { _id }) => {
     return adapter.removeOne(_id, state);
   }),
 
@@ -83,6 +117,10 @@ export const reducer = createReducer(
   }),
   // balance edit
   on(RecordActions.editBalance, (state, { value, add }) => {
+    return state;
+  }),
+
+  on(RecordActions.editBalanceSuccess, (state, { value, add }) => {
     if (add) {
       return {
         ...state,
@@ -95,7 +133,14 @@ export const reducer = createReducer(
       };
     }
   }),
+
   on(RecordActions.setBalance, (state, { value }) => {
+    return {
+      ...state,
+      balance: value,
+    };
+  }),
+  on(RecordActions.setBalanceSuccess, (state, { value }) => {
     return {
       ...state,
       balance: value,

@@ -22,8 +22,13 @@ export const setProducts = createAction(
   '[Product/API] Set Products',
   props<{ products: Product[] }>()
 );
+// add Product + success
 export const addProduct = createAction(
   '[Product/API] Add Product',
+  props<{ product: Product }>()
+);
+export const addProductSuccess = createAction(
+  '[Product/API] Add Product Success',
   props<{ product: Product }>()
 );
 export const setProduct = createAction(
@@ -34,8 +39,13 @@ export const upsertProduct = createAction(
   '[Product/API] Upsert Product',
   props<{ product: Product }>()
 );
+// add Products + success
 export const addProducts = createAction(
   '[Product/API] Add Products',
+  props<{ products: Product[] }>()
+);
+export const addProductsSuccess = createAction(
+  '[Product/API] Add Products Success',
   props<{ products: Product[] }>()
 );
 export const upsertProducts = createAction(
@@ -46,9 +56,14 @@ export const updateProduct = createAction(
   '[Product/API] Update Product',
   props<{ update: Update<Product> }>()
 );
+// delete Product + success
 export const updateProducts = createAction(
   '[Product/API] Update Products',
   props<{ updates: Update<Product>[] }>()
+);
+export const updateProductSuccess = createAction(
+  '[Product/API] Update Products Success',
+  props<{ update: Update<Product> }>()
 );
 export const mapProduct = createAction(
   '[Product/API] Map Product',
@@ -58,8 +73,13 @@ export const mapProducts = createAction(
   '[Product/API] Map Products',
   props<{ entityMap: EntityMap<Product> }>()
 );
+// delete pruduct + success
 export const deleteProduct = createAction(
   '[Product/API] Delete Product',
+  props<{ _id: string }>()
+);
+export const deleteProductSuccess = createAction(
+  '[Product/API] Delete Product Success',
   props<{ _id: string }>()
 );
 export const deleteSelectedProducts = createAction(

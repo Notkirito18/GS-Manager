@@ -26,6 +26,10 @@ export const addRecord = createAction(
   '[Record/API] Add Record',
   props<{ record: Record }>()
 );
+export const addRecordSuccess = createAction(
+  '[Record/API] Add Record Success',
+  props<{ record: Record }>()
+);
 export const setRecord = createAction(
   '[Record/API] Set Record',
   props<{ record: Record }>()
@@ -42,8 +46,13 @@ export const upsertRecords = createAction(
   '[Record/API] Upsert Records',
   props<{ records: Record[] }>()
 );
+// update record + success
 export const updateRecord = createAction(
   '[Record/API] Update Record',
+  props<{ update: Update<Record> }>()
+);
+export const updateRecordSuccess = createAction(
+  '[Record/API] Update Record Success',
   props<{ update: Update<Record> }>()
 );
 export const updateRecords = createAction(
@@ -58,10 +67,16 @@ export const mapRecords = createAction(
   '[Record/API] Map Records',
   props<{ entityMap: EntityMap<Record> }>()
 );
+// delete record + success
 export const deleteRecord = createAction(
   '[Record/API] Delete Record',
   props<{ _id: string }>()
 );
+export const deleteRecordSuccess = createAction(
+  '[Record/API] Delete Record Success',
+  props<{ _id: string }>()
+);
+
 export const deleteSelectedRecords = createAction(
   '[Record/API] Delete Records'
 );
@@ -75,7 +90,22 @@ export const editBalance = createAction(
   '[Record/API] Edit Balance',
   props<{ value: number; add: boolean }>()
 );
+export const editBalanceSuccess = createAction(
+  '[Record/API] Edit Balance Success',
+  props<{ value: number; add: boolean }>()
+);
+
+export const loadBalance = createAction('[Balance/API] Load Balance');
+export const loadBalanceSuccess = createAction(
+  '[Balance/API] Load Balance Success',
+  props<{ balance: number }>()
+);
+
 export const setBalance = createAction(
   '[Record/API] Set Balance',
+  props<{ value: number }>()
+);
+export const setBalanceSuccess = createAction(
+  '[Record/API] Set Balance Success',
   props<{ value: number }>()
 );

@@ -1,3 +1,6 @@
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+
 export const sweatColors = ['white', 'black', 'dark-red', 'red', 'yellow'];
 export const tshirtColors = ['white', 'black', 'blue', 'red', 'yellow'];
 export const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
